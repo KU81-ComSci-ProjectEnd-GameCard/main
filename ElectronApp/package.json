@@ -1,0 +1,14 @@
+{
+  "name": "dbrpg-card-rsys",
+  "version": "0.1.0",
+  "description": "Card Recommenedation System (GUI) for Card Selection in Deck-Building RPG Game",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "CC-BY-NC-SA-4.0",
+  "devDependencies": {
+    "electron": "^31.2.1"
+  }
+}
