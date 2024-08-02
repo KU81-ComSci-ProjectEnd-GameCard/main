@@ -12,7 +12,7 @@ const createWindow = () => {
     }
   })
 
-  win.loadFile('index.html')
+  win.loadFile('./web/index.html')
 }
 
 app.on('window-all-closed', () => {
