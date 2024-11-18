@@ -98,7 +98,7 @@ main.onDeckClick = (what) => {
 	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName([cardName,cardUpgrade]) + ".png";
 	tmp = document.getElementById("iCard_Where");
 	tmp.innerText = "(Selected From Your Deck)";
-	document.getElementById("action1Btn_Text").innerHTML = "ℹ️ Goto Card's Wiki URL";
+	document.getElementById("action1Btn_Text").innerHTML = "📖 Goto Card's Wiki URL";
 	document.getElementById("action2Btn_Text").innerHTML = "🗑️ Remove from Deck";
 	document.getElementById("action3Btn_Text").innerHTML = "🎚️ Up/Downgrade";
 	document.getElementById("action4Btn_Text").innerHTML = "🏆 Set to 1st predict card placeholder";
@@ -115,10 +115,11 @@ main.onDeckClick = (what) => {
 	return;
 }
 
-// TODO: RECODE
-main.onPredictClick = (what) => {
+
+main.onPredictClick = (idx) => {
+	let what= document.getElementById("midSection_A").children[idx];
 	if (what.children[0].attributes.src.textContent === "questionMark.png") {
-		main.selectedCard = ["p", what, null];
+		main.selectedCard = ["p", what, null, null];
 		document.getElementById("iCard_Bg").src = "questionMark.png";
 		const tmp = document.getElementById("iCard_Where");
 		tmp.innerText = "(You are selected empty card slot)";
@@ -129,11 +130,13 @@ main.onPredictClick = (what) => {
 		document.getElementById("action5Btn").hidden = true;
 		document.getElementById("action6Btn").hidden = true;
 	} else {
-		main.selectedCard = ["p", what, what.children[1].children[0].textContent];
-		document.getElementById("iCard_Bg").src = "./cardImgs/" + main.selectedCard[2] + ".png";
-		const tmp = document.getElementById("iCard_Where");
+		// TODO: wait 4 test
+		let tmp = main.transformThatImgTo2CardAttrib(what.children[0]);
+		main.selectedCard = ["p", what, tmp[0],tmp[1] ];
+		document.getElementById("iCard_Bg").src =what.children[0].src;
+		tmp = document.getElementById("iCard_Where");
 		tmp.innerText = "(Selected From Predict Placeholder)";
-		document.getElementById("action1Btn_Text").innerHTML = "ℹ️ Goto Card's Wiki URL";
+		document.getElementById("action1Btn_Text").innerHTML = "📖 Goto Card's Wiki URL";
 		document.getElementById("action2Btn_Text").innerHTML = "💾 Put to deck";
 		document.getElementById("action1Btn").hidden = false;
 		document.getElementById("action2Btn").hidden = false;
@@ -142,7 +145,7 @@ main.onPredictClick = (what) => {
 		document.getElementById("action5Btn").hidden = true;
 		document.getElementById("action6Btn").hidden = true;
 		document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
-		document.getElementById("action2Btn").onclick = () => { main.actionBtn.putCard2Deck(data); };
+		document.getElementById("action2Btn").onclick = () => { main.actionBtn.putCard2Deck([tmp[0],tmp[1]]); };
 	}
 	return;
 }
@@ -152,7 +155,7 @@ main.onLibClick = (data) => {
 	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
 	tmp = document.getElementById("iCard_Where");
 	tmp.innerText = "(Selected From Library)";
-	document.getElementById("action1Btn_Text").innerHTML = "ℹ️ Goto Card's Wiki URL";
+	document.getElementById("action1Btn_Text").innerHTML = "📖 Goto Card's Wiki URL";
 	document.getElementById("action2Btn_Text").innerHTML = "💾 Put to deck";
 	document.getElementById("action3Btn_Text").innerHTML = "🏆 Set to 1st predict card placeholder";
 	document.getElementById("action4Btn_Text").innerHTML = "🏆 Set to 2nd predict card placeholder";
@@ -197,8 +200,8 @@ main.actionBtn.removeFromDeck = (what) => {
 	what.remove();
 }
 
-main.transformThatImgSrcAttrib=(path)=>{
-	let tmp = path.textContent.split('/')[2].replace(".png","").split("+");
+main.transformThatImgTo2CardAttrib=(img)=>{
+	let tmp = img.src.split('/').at(-1).replace(".png","").split("+");
 	if (tmp.length===1) {
 		tmp=[tmp[0],0];
 	}
@@ -231,7 +234,7 @@ main.lCardSearch=()=>{
 				tmp3=[tmpe,false];
 				continue;
 			} else {
-				let tmp2 = main.transformThatImgSrcAttrib(tmpe.attributes.src)[0];
+				let tmp2 = main.transformThatImgTo2CardAttrib(tmpe)[0];
 				tmp2=(main.getCardDisplayName(tmp2)).toLowerCase();
 				if (!main.doStrictSearch) {
 					tmpe.hidden=true;
@@ -344,7 +347,7 @@ rendererPreload.getcardLibPromise.then((data) => {
 			let tmp1=undefined; let tmp2=undefined;
 			if (tmpi===0) {tmp1 =tmpe;} else {tmp1=tmpe+"+"+tmpi}
 			tmp2=new Image();
-			tmp2.classList.add("general"); tmp2.classList.add("lCard"); tmp2.classList.add("ignoreDefExtendSize"); tmp2.classList.add("addDefMarginBottom");  tmp2.classList.add("addDefMarginRight");tmp2.src="./cardImgs/"+tmp1+".png"; tmp2.onclick=(event)=> {main.onLibClick( main.transformThatImgSrcAttrib(event.target.attributes.src));};
+			tmp2.classList.add("general"); tmp2.classList.add("lCard"); tmp2.classList.add("ignoreDefExtendSize"); tmp2.classList.add("addDefMarginBottom");  tmp2.classList.add("addDefMarginRight");tmp2.src="./cardImgs/"+tmp1+".png"; tmp2.onclick=(event)=> {main.onLibClick( main.transformThatImgTo2CardAttrib(event.target));};
 			tmp2.onload=()=>{
 				if (main.LoadedCardAmount<=main.toLoadCardAmount) {
 					main.LoadedCardAmount+=1;
