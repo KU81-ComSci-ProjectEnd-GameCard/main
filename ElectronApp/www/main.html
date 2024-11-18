@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slay The Spire End Card Picking Predictor</title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&display=swap" rel="stylesheet"> -->
+</head>
+
+<body id="body" class="general">
+  <div id="rootBelowBodyDiv" class="general">
+    <div id="overlayScreenInit" class="general container overlayScreen addDefPad">
+      <p id="overlayScreenInit_mainText" class="general overlayScreenInit_Text ignoreDefExtendSize textnegate">⌛
+        Starting Program...</p>
+      <p id="overlayScreenInit_subText" class="general overlayScreenInit_Text ignoreDefExtendSize textnegate"></p>
+    </div>
+    <div id="overlayScreenWiki" class="general container overlayScreen addDefPad">
+      <button id="olsWikiBtn" class="general ignoreDefExtendSize addDefMarginBottom"
+        onclick="main.onWikiClosing()">
+        <p class="general ignoreDefExtendSize textBtn">🔙 Go Back</p>
+      </button>
+      <iframe id="olsWikiIFrame" class="general addDefBorder"
+        ></iframe>
+    </div>
+    <div class="general container" id="main_container">
+      <div class="general container section main_section addDefBorder addDefPad addScrollOverflow_V" id="firstSection">
+        <button class="general ignoreDefExtendSize  addDefMarginBottom" onclick="main.clearDeck()">
+          <p class="general textBtn ignoreDefExtendSize">🧹 Clear Deck</p>
+        </button>
+        <div customtype="dCard" userattrib0="[]" onclick="main.onDeckClick(what)" class="general dCard ignoreDefExtendSize ExtendH addDefBorder addDefMarginBottom  ">
+          <div class="general dCardHeadNum   addDefBorder setNegateColorBorder"><p class=" general text">0</p></div>
+          <div class="general dCardName textnegate  addScrollOverflow_H">Anger  ( + 1 )</div>
+        </div>
+      </div>
+      <div class="general container main_section container " id="midSection">
+        <div class="general container section sub_section midSection_AllSub  addDefBorder addDefPad" id="midSection_A">
+          <div id="pCard1" class="general pCard container addDefMarginRight" onclick="main.onPredictClick(0)">
+            <img id="pCard1_Bg" class="general pCard_Bg addDefBorder " src="questionMark.png"></img>
+            <div id="pCard1_Name" class="general pCard_Name addDefBorder addDefPad ">
+              <p class="general textnegate addScrollOverflow_H ">&lt;Empty Placeholder&gt;</p>
+            </div>
+          </div>
+          <div id="pCard2" class="general pCard container addDefMarginRight" onclick="main.onPredictClick(1)">
+            <img id="pCard2_Bg" class="general pCard_Bg addDefBorder " src="questionMark.png"></img>
+            <div id="pCard2_Name" class="general pCard_Name addDefBorder addDefPad ">
+              <p class="general textnegate addScrollOverflow_H ">&lt;Empty Placeholder&gt;</p>
+            </div>
+          </div>
+          <div id="pCard3" class="general pCard container addDefMarginRight" onclick="main.onPredictClick(2)">
+            <img id="pCard3_Bg" class="general pCard_Bg addDefBorder " src="questionMark.png"></img>
+            <div id="pCard3_Name" class="general pCard_Name addDefBorder addDefPad ">
+              <p class="general textnegate addScrollOverflow_H ">&lt;Empty Placeholder&gt;</p>
+            </div>
+          </div>
+          <button id="pCardPredictBtn" class="general pCard ignoreDefExtendSize ExtendH" onclick="main.predict()">
+            <p class="general textBtn ignoreDefExtendSize ExtendH">🔮<br>Predict</p>
+          </button>
+        </div>
+        <div class="general container section sub_section midSection_AllSub addDefBorder addDefPad" id="midSection_B">
+          <div id="iCard_Bg_Phd" class="general addDefBorder addDefMarginRight">
+            <img id="iCard_Bg" class="general " src="questionMark.png"></img>
+          </div>
+          <div id="iCard_Pane" class="general">
+            <div id="iCard_Where" class="general text ignoreDefExtendSize ExtendH setTextBold setTextMoreFontSize">(Not
+              yet selected)</div>
+            <button id="action1Btn" class="general ignoreDefExtendSize ExtendH" hidden>
+              <p id="action1Btn_Text" class="general textBtn ignoreDefExtendSize ExtendH "></p>
+            </button>
+            <button id="action2Btn" class="general ignoreDefExtendSize ExtendH" hidden>
+              <p id="action2Btn_Text" class="general textBtn ignoreDefExtendSize ExtendH "></p>
+            </button>
+            <button id="action3Btn" class="general ignoreDefExtendSize ExtendH" hidden>
+              <p id="action3Btn_Text" class="general textBtn ignoreDefExtendSize ExtendH "></p>
+            </button>
+            <button id="action4Btn" class="general ignoreDefExtendSize ExtendH" hidden>
+              <p id="action4Btn_Text" class="general textBtn ignoreDefExtendSize ExtendH "></p>
+            </button>
+            <button id="action5Btn" class="general ignoreDefExtendSize ExtendH" hidden>
+              <p id="action5Btn_Text" class="general textBtn ignoreDefExtendSize ExtendH "></p>
+            </button>
+            <button id="action6Btn" class="general ignoreDefExtendSize ExtendH" hidden>
+              <p id="action6Btn_Text" class="general textBtn ignoreDefExtendSize ExtendH "></p>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="general container section main_section addDefBorder" id="lastSection">
+        <div id="lCard_SearchPane" class="general container addDefMarginBottom addDefPad">
+          <input id="lCard_SearchBox" class="general addDefBorder addDefMarginRight addDefPad"
+            placeholder="🔎 Search by name, then enter..."
+            onkeypress="(()=>{if (event.keyCode===13) {main.lCardSearch();}})()">
+          <button id="lCard_SearchBtn" class="general " onclick="main.showLCardFilterSetting()">
+            <p class="general textBtn">
+              ⚙️ Filter
+            </p>
+          </button>
+        </div>
+        <div id="lCard_BelowPane" class="general addDefBorder addDefPad">
+          <div id="lCard_FilterSetting" class="general" hidden>
+            <h1 class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">💡 Notes:</h1>
+            <p class="general textnegate ignoreDefExtendSize ExtendH setTextAlignLeft">- Searching is not case-sensitive and not whole matching, but split whitespace into group of words to do matching.</p>
+            <p id="lCard_FilterSetting_Note2" class="general textnegate ignoreDefExtendSize ExtendH setTextAlignLeft">- 🙏 Filter by Color/Type/Rarity is comming in next version 🙏</p>
+            <div class="general ignoreDefExtendSize ExtendH"></div>
+            <h1 class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">General</h1>
+            <div class="general container ignoreDefExtendSize ExtendH">
+              <input id="lCard_FS_doSS" class="general  ignoreDefExtendSize ExtendH" type="checkbox"
+                onchange="main.doStrictSearch=!main.doStrictSearch">
+              <p id="lCard_FS_doSS_text" class="general  ignoreDefExtendSize ExtendH  textnegate setTextAlignLeft">
+                Strict Search (recommended)</p>
+            </div>
+            <p class="general  ignoreDefExtendSize textnegate setTextAlignLeft">= appeared cards must contain every
+              (instead of any) words you typed</p>
+            <h1 id="lCard_FS_shownC" class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">Shown Cost</h1>
+            <h1 id="lCard_FS_shownUg" class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">Shown Upgrade Count</h1>
+
+          </div>
+          <div id="lCard_list" class="general">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./main.js"></script>
+    <data id="cardListFile" src="cardList.txt"></data>
+</body>
+
+</html>

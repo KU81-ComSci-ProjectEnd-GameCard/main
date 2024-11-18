@@ -1,0 +1,432 @@
+/* Reorder Preference */
+/* -) more top for most outer, the more top for ordering of element */
+/* -) tagname>class>id */
+/* -) .general is most top of any thing */
+/* -) for :<*> must put next to the same target */
+/*  */
+/* Reorder Preference but only for classes */
+/* -) by deafault set to alphabetically sorted if idea above sstill not fully solved */
+/* -) if override must to, but wonder should i move the 1st or 2nd, determine by what move that take less move, if not solved, then determine what most feel like more widen scope, if still not solved determine by what most used */
+
+.general {
+  color: black;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  /* EXPLAIN: For horizontal align of text */
+  text-align: center;
+  /* EXPLAIN: default for justify-self for each items in ctn*/
+  justify-items: center;
+  /* EXPLAIN: how each items align in aspect of same axis of item's line in ctn*/
+  justify-self: center;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: how item align in aspect of same axis of item's line in ctn*/
+  justify-content: center;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-item but cross-axis of the line */
+  align-items: center;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-self but cross-axis of the line */
+  align-self: center;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
+  align-content: center;
+  margin: 0vmin;
+  padding: 0vmin;
+  font-family: "Kreon", serif;
+  font-size: 2.34375vmin;
+  font-weight: 400;
+  font-style: normal;
+  font-optical-sizing: auto;
+  border-radius: 1.5625vmin;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+
+img {
+  object-fit: contain;
+}
+
+/* Special Ordering: Treat this as tagname target,but put under last tagname target  */
+.text {
+  filter: drop-shadow(0vmin 0vmin 0.5pt white);
+  color: black;
+}
+
+
+/* Special Ordering: put before Extend(H/V)  */
+.ignoreDefExtendSize {
+  width: unset;
+  height: unset;
+}
+
+.ExtendH {
+  width: 100%;
+}
+
+.ExtendV {
+  height: 100%;
+}
+
+.addContrastToCardImg {
+  filter: contrast(2.0);
+}
+
+.addDefBorder {
+  border: 2px solid #ccc;
+}
+
+
+.addDefMarginBottom {
+  margin-bottom: 0.390625vmin;
+}
+
+.addDefMarginRight {
+  margin-right: 0.390625vmin;
+}
+
+
+.addDefPad {
+  padding: 0.390625vmin;
+}
+
+
+
+.addScrollOverflow {
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.addScrollOverflow:hover {
+  scrollbar-width: thin;
+}
+
+.addScrollOverflow_H {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.addScrollOverflow_H:hover {
+  scrollbar-width: thin;
+}
+
+.addScrollOverflow_V {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+
+
+
+.addScrollOverflow_V:hover {
+  scrollbar-width: thin;
+}
+
+
+.container {
+  display: flex;
+}
+
+
+
+
+.dCard {
+  width: 100%;
+  background-color: #00000080;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+}
+
+/* Special Ordering: put before any text customization that should come after this  */
+.textBtn {
+  color: black;
+}
+
+/* Special Ordering: put before any text customization that should come after this  */
+.textnegate {
+  filter: drop-shadow(0vmin 0vmin 0.5pt black);
+  color: white;
+}
+
+/* Special Ordering: to revert some change of such .textnegate */
+.textBtn {
+  filter: none;
+}
+
+
+.dCardHeadNum {
+  color: black;
+  background-color: rgb(192, 150, 121);
+  margin-right: 0.390625vmin;
+  flex: 0.18;
+  font-weight: bold;
+}
+
+.dCardName {
+  text-align: left;
+  flex: 0.98;
+  font-weight: bold;
+}
+
+
+.lCard {
+  width: 12.5vmin;
+  border-radius: 0px;
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+
+.lCardHeader {
+  margin-top: 1.5625vmin;
+  text-align: left;
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+
+.overlayScreen {
+  visibility: hidden;
+  position: fixed;
+  z-index: 1;
+  background-color: #80808080;
+  backdrop-filter: blur(16pt);
+}
+
+
+
+
+.overlayScreenInit_Text {
+  font-size: 8vmin;
+  font-weight: bold;
+  filter: drop-shadow(0.78125vmin 0.78125vmin 4pt black);
+}
+
+.pCard {
+  cursor: pointer;
+  flex: 1;
+  flex-direction: column;
+}
+
+
+
+.pCard_Bg {
+  background-color: #00000080;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  flex: 0.75;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.pCard_Name {
+  background-color: #00000080;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  font-weight: bold;
+  flex: 0.25;
+
+}
+
+.setNegateColorBorder {
+  border-color: rgb(51, 51, 51);
+}
+
+.setTextAlignLeft {
+  text-align: left;
+}
+
+
+.setTextBold {
+  font-weight: bold;
+}
+
+
+.sub_section {
+  box-sizing: border-box;
+}
+
+.undoTextSize {
+  font-weight: unset;
+  font-size: unset;
+}
+
+#body {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("bgWith25T.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #80808000;
+}
+
+#rootBelowBodyDiv {
+  width: 100%;
+  height: 100%;
+  background-image: revert;
+  background-position: revert;
+  background-size: revert;
+  background-repeat: revert;
+}
+
+#overlayScreenInit {
+  visibility: visible;
+  cursor: wait;
+  flex-direction: column;
+}
+
+#overlayScreenInit_mainText {
+  font-size: 16vmin;
+}
+
+#overlayScreenWiki {
+  flex-direction: column;
+}
+
+#main_container {
+  height: 100%;
+  width: 100%;
+  /* 2x of default-pad size */
+  padding: 0.78125vmin;
+  flex-direction: row;
+}
+
+#firstSection {
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-item but cross-axis of the line */
+  align-items: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-self but cross-axis of the line */
+  align-self: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
+  align-content: start;
+  flex: 3.37;
+  display: list-item;
+  background-color: #00e0ff80;
+  /* 2x of default-pad size */
+  margin-right: 0.78125vmin;
+}
+
+
+#midSection {
+  flex: 8.39;
+  flex-direction: column;
+
+}
+
+#midSection_A {
+  display: flex;
+  flex-direction: row;
+  background-color: #fffc0080;
+  flex: 2.57;
+  /* 2x-then-0.5x of default-pad size */
+  margin-bottom: 0.390625vmin;
+}
+
+#pCardPredictBtn {
+  cursor: unset;
+  flex: 0.5;
+}
+
+/* for attempt show wait cursor while predict */
+#pCardPredictBtn:active {
+  cursor: wait;
+}
+
+#midSection_B {
+  flex: 6.91;
+  flex-direction: row;
+  background-color: #ff0f0080;
+  /* 2x-then-0.5x of default-pad size */
+  margin-top: 0.390625vmin;
+}
+
+
+#iCard_Bg_Phd {
+  background-color: #00000080;
+  flex: 5.61;
+  /* just little overflow hide it */
+  overflow: hidden;
+}
+
+#iCard_Bg {
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+#iCard_Pane {
+  padding-top: 0.78125vmin;
+  flex: 2.86;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-item but cross-axis of the line */
+  align-items: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-self but cross-axis of the line */
+  align-self: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
+  align-content: start;
+}
+
+#iCard_Where {
+  font-size: 3.125vmin;
+}
+
+#lastSection {
+  flex: 5.62;
+  flex-direction: column;
+  background-color: #00ff0a80;
+  /* 2x of default-pad size */
+  margin-left: 0.78125vmin;
+}
+
+#lCard_SearchPane {
+  flex:1;
+  flex-direction: row;
+}
+
+#lCard_SearchBox {
+  background-color: #ffffff80;
+  text-align: left;
+  /* EXPLAIN: default for justify-self for each items in ctn*/
+  justify-items: start;
+  /* EXPLAIN: how each items align in aspect of same axis of item's line in ctn*/
+  justify-self: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: how item align in aspect of same axis of item's line in ctn*/
+  justify-content: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-item but cross-axis of the line */
+  align-items: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-self but cross-axis of the line */
+  align-self: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
+  align-content: start;
+  flex: 4;
+}
+
+#lCard_SearchBtn {
+  flex:1;
+}
+
+
+#lCard_BelowPane {
+  flex:15;
+}
+
+#lCard_FilterSetting_Note2{
+  margin-bottom: 1.5625vmin;
+}
+#lCard_FS_doSS {
+  flex: 1;
+}
+
+#lCard_FS_doSS_text {
+  flex: 7;
+}
+#lCard_list {
+  /* EXPLAIN: For horizontal align of text */
+  text-align: left;
+  /* EXPLAIN: default for justify-self for each items in ctn*/
+  justify-items: start;
+  /* EXPLAIN: how each items align in aspect of same axis of item's line in ctn*/
+  justify-self: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-item but cross-axis of the line */
+  align-items: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-self but cross-axis of the line */
+  align-self: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
+  align-content: start;
+}

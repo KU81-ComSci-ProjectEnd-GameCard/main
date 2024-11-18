@@ -1,0 +1,348 @@
+const main = new Object();
+main.actionBtn = new Object();
+main.selectedCard = null;
+main.doStrictSearch= true;
+main.allowedCost=undefined;
+main.allowedUpgrade=undefined;
+main.LoadedCardAmount=0;
+main.toLoadCardAmount=0;
+
+main.cardDisplayNameMap = {
+	"All Out Attack": "All-Out Attack",
+	"AscendersBane": "Ascender's Bane",
+	"Cloak And Dagger": "Cloak and Dagger",
+	"Crippling Poison": "Crippling Cloud",
+	"Defend_G": "Defend (Silent)",
+	"Defend_R": "Defend (Ironclad)",
+	"HandOfGreed": "Hand of Greed",
+	"Jack Of All Trades": "Jack of All Trades",
+	"Night Terror": "Nightmare",
+	"PanicButton": "Panic Button",
+	"PiercingWail": "Piercing Wail",
+	"Strike_G": "Strike (Silent)",
+	"Strike_R": "Strike (Ironclad)",
+	"Underhanded Strike": "Sneaky Strike",
+	"Venomology": "Alchemize",
+	"Well Laid Plans": "Well-Laid Plans",
+	"Wraith Form v2": "Wraith Form"
+}
+
+main.cardCost = {
+	'Neutralize': ['0', '0'], 'Shockwave': ['2', '2'], 'Second Wind': ['1', '1'], 'Inflame': ['1', '1'], 'Strike_R': ['1', '1'], 'Metallicize': ['1', '1'], 'Sucker Punch': ['1', '1'], 'Perfected Strike': ['2', '2'], 'Pommel Strike': ['1', '1'], 'Parasite': ['', 'X'], 'Apotheosis': ['2', 'X'], 'Corpse Explosion': ['2', '2'], 'Rage': ['0', '0'], 'Envenom': ['2', 'X'], 'Well Laid Plans': ['1', '1'], 'Backstab': ['0', '0'], 'Blood for Blood': ['4', 'X'], 'Prepared': ['0', '0'], 'Caltrops': ['1', '1'], 'Mayhem': ['2', 'X'], 'Defend_R': ['1', '1'], 'Underhanded Strike': ['2', '2'], 'Infinite Blades': ['1', '1'], 'Armaments': ['1', '1'], 'Bloodletting': ['0', '0'], 'Burst': ['1', '1'], 'Flying Knee': ['1', '1'], 'Shrug It Off': ['1', '1'], 'Doppelganger': ['X', 'X'], 'Carnage': ['2', '2'], 'Hemokinesis': ['1', '1'], 'Rampage': ['1', '1'], 'Calculated Gamble': ['0', '0'], 'A Thousand Cuts': ['2', '2'], 'J.A.X.': ['0', '0'], 'Spot Weakness': ['1', '1'], 'Writhe': ['', 'X'], 'Burning Pact': ['1', '1'], 'Secret Weapon': ['0', '0'], 'Evolve': ['1', '1'], 'Dramatic Entrance': ['0', '0'], 'Pain': ['', 'X'], 'Warcry': ['0', '0'], 'True Grit': ['1', '1'], 'Finisher': ['1', '1'], 'Infernal Blade': ['1', 'X'], 'Deflect': ['0', '0'], 'Bludgeon': ['3', '3'], 'Choke': ['2', '2'], 'Regret': ['', 'X'], 'Searing Blow': ['2', '2'], 'Escape Plan': ['0', '0'], 'Setup': ['1', 'X'], 'Predator': ['2', '2'], 'Flame Barrier': ['2', '2'], 'Catalyst': ['1', '1'], 'Disarm': ['1', '1'], 'Sword Boomerang': ['1', '1'], 'Acrobatics': ['1', '1'], 'Blade Dance': ['1', '1'], 'Expertise': ['1', '1'], 'Panacea': ['0', '0'], 'Thunderclap': ['1', '1'], 'Trip': ['0', '0'], 'The Bomb': ['2', '2'], 'Dropkick': ['1', '1'], 'Power Through': ['1', '1'], 'Whirlwind': ['X', 'X'], 'Concentrate': ['0', '0'], 'Venomology': ['1', 'X'], 'Purity': ['0', '0'], 'Bane': ['1', '1'], 'Clash': ['0', '0'], 'Die Die Die': ['1', '1'], 'Strike_G': ['1', '1'], 'HandOfGreed': ['2', '2'], 'Reaper': ['2', '2'], 'Crippling Poison': ['2', '2'], 'Deep Breath': ['0', '0'], 'Endless Agony': ['0', '0'], 'Flex': ['0', '0'], 'Flash of Steel': ['0', '0'], 'Heavy Blade': ['2', '2'], 'Survivor': ['1', '1'], 'Sentinel': ['1', '1'], 'Double Tap': ['1', '1'], 'AscendersBane': ['', 'X'], 'Grand Finale': ['0', '0'], 'Slice': ['0', '0'], 'Secret Technique': ['0', '0'], 'Cloak And Dagger': ['1', '1'], 'Blur': ['1', '1'], 'Fire Breathing': ['1', '1'], 'Leg Sweep': ['2', '2'], 'Discovery': ['1', '1'], 'Terror': ['1', 'X'], 'Accuracy': ['1', '1'], 'Violence': ['0', '0'], 'Backflip': ['1', '1'], 'Exhume': ['1', 'X'], 'Storm of Steel': ['1', '1'], 'Flechettes': ['1', '1'], 'All Out Attack': ['1', '1'], 'Battle Trance': ['0', '0'], 'Poisoned Stab': ['1', '1'], 'Deadly Poison': ['1', '1'], 'Fiend Fire': ['2', '2'], 'Defend_G': ['1', '1'], 'PanicButton': ['0', '0'], 'Blind': ['0', '0'], 'Finesse': ['0', '0'], 'Ghostly Armor': ['1', '1'], 'Jack Of All Trades': ['0', '0'], 'Cleave': ['1', '1'], 'Wild Strike': ['1', '1'], 'Tactician': ['', ''], 'Iron Wave': ['1', '1'], 'Bullet Time': ['3', 'X'], 'Footwork': ['1', '1'], 'Reflex': ['', ''], 'Entrench': ['2', 'X'], 'Feel No Pain': ['1', '1'], 'Injury': ['', 'X'], 'Dodge and Roll': ['1', '1'], 'Heel Hook': ['1', '1'], 'Metamorphosis': ['2', '2'], 'Rupture': ['1', '1'], 'Wraith Form v2': ['3', '3'], 'Good Instincts': ['0', '0'], 'Barricade': ['3', 'X'], 'Transmutation': ['X', 'X'], 'Decay': ['', 'X'], 'Demon Form': ['3', '3'], 'Phantasmal Killer': ['1', 'X'], 'Clothesline': ['2', '2'], 'Dagger Throw': ['1', '1'], 'Body Slam': ['1', 'X'], 'Magnetism': ['2', 'X'], 'Panache': ['0', '0'], 'Adrenaline': ['0', '0'], 'Dark Embrace': ['2', 'X'], 'Bite': ['1', '1'], 'Havoc': ['1', 'X'], 'Twin Strike': ['1', '1'], 'Impatience': ['0', '0'], 'Skewer': ['X', 'X'], 'Intimidate': ['0', '0'], 'Juggernaut': ['2', '2'], 'Swift Strike': ['0', '0'], 'Dual Wield': ['1', '1'], 'Clumsy': ['', 'X'], 'Anger': ['0', '0'], 'Chrysalis': ['2', '2'], 'Corruption': ['3', 'X'], 'Enlightenment': ['0', '0'], 'Immolate': ['2', '2'], 'Madness': ['1', 'X'], 'Master of Strategy': ['0', '0'], 'Offering': ['0', '0'], 'Uppercut': ['2', '2'], 'After Image': ['1', '1'], 'Combust': ['1', '1'], 'Noxious Fumes': ['1', '1'], 'Dark Shackles': ['0', '0'], 'Glass Knife': ['1', '1'], 'Eviscerate': ['3', '3'], 'Bandage Up': ['0', '0'], 'Night Terror': ['3', 'X'], 'Sadistic Nature': ['0', '0'], 'Outmaneuver': ['1', '1'], 'Dagger Spray': ['1', '1'], 'Feed': ['1', '1'], 'Forethought': ['0', '0'], 'Doubt': ['', 'X'], 'Dash': ['2', '2'], 'Normality': ['', 'X'], 'Headbutt': ['1', '1'], 'Sever Soul': ['2', '2'], 'Quick Slash': ['1', '1'], 'Pummel': ['1', '1'], 'Malaise': ['X', 'X'], 'Distraction': ['1', 'X'], 'Limit Break': ['1', '1'], 'Bouncing Flask': ['2', '2'], 'PiercingWail': ['1', '1'], 'Mind Blast': ['2', 'X'], 'Necronomicurse': ['', 'X'], 'Seeing Red': ['1', 'X'], 'Berserk': ['0', '0'], 'Masterful Stab': ['0', '0'], 'Shame': ['X', 'X'], 'Tools of the Trade': ['1', 'X'], 'Bash': ['2', '2'], 'Reckless Charge': ['0', '0'], 'Thinking Ahead': ['0', '0'], 'Brutality': ['0', '0'], 'Unload': ['1', '1'], 'Impervious': ['2', '2']
+}
+
+// TODO: RECODE
+main.predict = () => {
+	/* for attempt show wait cursor while predict */
+	document.getElementById('body').style.cursor = 'wait';
+	document.getElementById('overlayScreenInit_mainText').innerText = "⌛ Predicting...";
+	document.getElementById('overlayScreenInit_subText').innerText = "(program become unrespondsive for about 1 min, this is normal)";
+	document.getElementById('overlayScreenInit').style.visibility = '';
+	let tmp = rendererPreload.doPredict(main.getDeckStr());
+	tmp.then(() => {
+		document.getElementById('overlayScreenInit').style.visibility = 'hidden';
+		document.getElementById('body').style.cursor = '';
+	})
+	return tmp;
+};
+
+
+main.clearDeck = () => {
+	if (main.selectedCard !== null && main.selectedCard[0] === "d") {
+		main.onEmptyAreaClick();
+	}
+	const tmp = document.getElementById("firstSection");
+	for (let index = tmp.children.length - 1; index > 0; index--) {
+		if (tmp.children[index].tagName == "DIV") {
+			tmp.removeChild(tmp.children[index]);
+		}
+	}
+	return;
+};
+
+// TODO: RECODE
+main.getDeckStr = () => {
+	const tmp = document.getElementById("firstSection");
+	var tmp2 = [];
+	for (let index = 0; index < tmp.children.length; index++) {
+		if (tmp.children[index].tagName == "DIV") {
+			var tmp1 = tmp.children[index].getAttribute("customattrib");
+			tmp1 = JSON.parse(tmp1);
+			var tmp_name = tmp1[1];
+			tmp2.push(tmp_name);
+		}
+	}
+	return tmp2.join(',');
+};
+
+
+main.onEmptyAreaClick = () => {
+	main.selectedCard = null;
+	document.getElementById("iCard_Bg").src = "questionMark.png";
+	const tmp = document.getElementById("iCard_Where");
+	tmp.innerText = "(Not yet selected)";
+	document.getElementById("action1Btn").hidden = true;
+	document.getElementById("action2Btn").hidden = true;
+	document.getElementById("action3Btn").hidden = true;
+	document.getElementById("action4Btn").hidden = true;
+	document.getElementById("action5Btn").hidden = true;
+	document.getElementById("action6Btn").hidden = true;
+	return;
+}
+
+// TODO: RECODE
+main.onDeckClick = (what) => {
+	var tmp = JSON.parse(what.attributes.customattrib.textContent)[1];
+	main.selectedCard = ["d", what, tmp];
+	document.getElementById("iCard_Bg").src = "./cardImgs/" + tmp + ".png";
+	tmp = document.getElementById("iCard_Where");
+	tmp.innerText = "(Selected From Your Deck)";
+	document.getElementById("action1Btn_Text").innerHTML = "ℹ️ Goto Card's Wiki URL";
+	document.getElementById("action2Btn_Text").innerHTML = "🗑️ Remove from Deck";
+	document.getElementById("action3Btn_Text").innerHTML = "🎚️ Up/Downgrade";
+	document.getElementById("action4Btn_Text").innerHTML = "🏆 Set to 1st predict card placeholder";
+	document.getElementById("action5Btn_Text").innerHTML = "🏆 Set to 1st predict card placeholder";
+	document.getElementById("action6Btn_Text").innerHTML = "🏆 Set to 1st predict card placeholder";
+	document.getElementById("action1Btn").hidden = false;
+	document.getElementById("action2Btn").hidden = false;
+	document.getElementById("action3Btn").hidden = false;
+	document.getElementById("action4Btn").hidden = false;
+	document.getElementById("action5Btn").hidden = false;
+	document.getElementById("action6Btn").hidden = false;
+	document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
+	document.getElementById("action2Btn").onclick = () => { main.actionBtn.removeFromDeck(main.selectedCard[1]); };
+	return;
+}
+
+// TODO: RECODE
+main.onPredictClick = (what) => {
+	if (what.children[0].attributes.src.textContent === "questionMark.png") {
+		main.selectedCard = ["p", what, null];
+		document.getElementById("iCard_Bg").src = "questionMark.png";
+		const tmp = document.getElementById("iCard_Where");
+		tmp.innerText = "(You are selected empty card slot)";
+		document.getElementById("action1Btn").hidden = true;
+		document.getElementById("action2Btn").hidden = true;
+		document.getElementById("action3Btn").hidden = true;
+		document.getElementById("action4Btn").hidden = true;
+		document.getElementById("action5Btn").hidden = true;
+		document.getElementById("action6Btn").hidden = true;
+	} else {
+		main.selectedCard = ["p", what, what.children[1].children[0].textContent];
+		document.getElementById("iCard_Bg").src = "./cardImgs/" + main.selectedCard[2] + ".png";
+		const tmp = document.getElementById("iCard_Where");
+		tmp.innerText = "(Selected From Predict Placeholder)";
+		document.getElementById("action1Btn_Text").innerHTML = "ℹ️ Goto Card's Wiki URL";
+		document.getElementById("action2Btn_Text").innerHTML = "💾 Put to deck";
+		document.getElementById("action1Btn").hidden = false;
+		document.getElementById("action2Btn").hidden = false;
+		document.getElementById("action3Btn").hidden = true;
+		document.getElementById("action4Btn").hidden = true;
+		document.getElementById("action5Btn").hidden = true;
+		document.getElementById("action6Btn").hidden = true;
+		document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
+	}
+	return;
+}
+
+main.onLibClick = (data) => {
+	main.selectedCard = ["l", undefined, data[0],data[1]];
+	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
+	tmp = document.getElementById("iCard_Where");
+	tmp.innerText = "(Selected From Library)";
+	document.getElementById("action1Btn_Text").innerHTML = "ℹ️ Goto Card's Wiki URL";
+	document.getElementById("action2Btn_Text").innerHTML = "💾 Put to deck";
+	document.getElementById("action3Btn_Text").innerHTML = "🏆 Set to 1st predict card placeholder";
+	document.getElementById("action4Btn_Text").innerHTML = "🏆 Set to 2nd predict card placeholder";
+	document.getElementById("action5Btn_Text").innerHTML = "🏆 Set to 3rd predict card placeholder";
+	document.getElementById("action1Btn").hidden = false;
+	document.getElementById("action2Btn").hidden = false;
+	document.getElementById("action3Btn").hidden = false;
+	document.getElementById("action4Btn").hidden = false;
+	document.getElementById("action5Btn").hidden = false;
+	document.getElementById("action6Btn").hidden = true;
+	document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
+	return;
+}
+
+main.actionBtn.goToWiki = (name) => {
+	let tmpDE1=document.getElementById('overlayScreenInit');
+	let tmpDE2=document.getElementById('overlayScreenWiki');
+	let tmpDE3=document.getElementById('olsWikiIFrame');
+	/* for attempt show wait cursor while load */
+	document.getElementById('body').style.cursor = 'wait';
+	document.getElementById('overlayScreenInit_mainText').innerText = "⌛ Loading Wiki Page...";
+	document.getElementById('overlayScreenInit_subText').innerText = "";
+	tmpDE1.style.visibility = '';
+	name=main.getCardDisplayName(name);
+	tmpDE3.onload=()=>{
+		tmpDE3.onload=undefined;
+		document.getElementById('body').style.cursor = '';
+		tmpDE2.style.visibility = 'visible';
+		tmpDE1.style.visibility = 'hidden';
+	}
+	tmpDE3.src = "https://slay-the-spire.fandom.com/wiki/" + name;
+}
+
+main.onWikiClosing=()=>{
+	document.getElementById('overlayScreenWiki').style.visibility='';
+	document.getElementById('olsWikiIFrame').src='';
+}
+
+main.actionBtn.removeFromDeck = (what) => {
+	main.onEmptyAreaClick();
+	what.remove();
+}
+
+main.transformThatImgSrcAttrib=(path)=>{
+	let tmp = path.textContent.split('/')[2].replace(".png","").split("+");
+	if (tmp.length===1) {
+		tmp=[tmp[0],0];
+	}
+	tmp[1]=parseInt(tmp[1]);
+	return tmp;
+}
+
+main.transform2CardAttrib2ImgName=(data)=>{
+	if (data[1]===0) {return data[0];}
+	else { return data[0]+"+"+data[1];}
+}
+
+main.lCardSearch=()=>{
+	document.getElementById('body').style.cursor = 'wait';
+	let tmp = document.getElementById("lCard_SearchBox").value.toLowerCase();
+	if (tmp==='') {
+		for (let tmpe of document.getElementById("lCard_list").children) {
+			tmpe.hidden=false;
+		}
+	}
+	else {
+		tmp=tmp.split(' ');
+		let tmp3=undefined;
+		for (let tmpe of document.getElementById("lCard_list").children) {
+			if (tmpe.tagName!=="IMG") {
+				if (tmp3===undefined) {
+				} else {
+					tmp3[0].hidden=!tmp3[1];
+				}
+				tmp3=[tmpe,false];
+				continue;
+			} else {
+				let tmp2 = main.transformThatImgSrcAttrib(tmpe.attributes.src)[0];
+				tmp2=(main.getCardDisplayName(tmp2)).toLowerCase();
+				if (!main.doStrictSearch) {
+					tmpe.hidden=true;
+					for (let tmpe2 of tmp) {
+						if (tmp2.includes(tmpe2)) {
+							tmpe.hidden=false;
+							break;
+						}
+					}
+				} else {
+					tmpe.hidden=false;
+					for (let tmpe2 of tmp) {
+						if (!tmp2.includes(tmpe2)) {
+							tmpe.hidden=true;
+							break;
+						}
+					}
+					
+				}
+				if (!tmpe.hidden) {tmp3[1]=true;}
+			}
+		}
+		tmp3[0].hidden=!tmp3[1];
+	}
+	document.getElementById('body').style.cursor = '';
+}
+
+main.showLCardFilterSetting=()=>{
+	if (document.getElementById("lCard_list").hidden) {
+		document.getElementById("lCard_FilterSetting").hidden=true;
+		document.getElementById("lCard_SearchBox").hidden=false;
+		document.getElementById("lCard_SearchBtn").textContent="⚙️ Filter";
+		main.lCardSearch();
+		document.getElementById("lCard_list").hidden=false;
+		
+	}
+	else {
+		document.getElementById("lCard_FS_doSS").checked=main.doStrictSearch;
+		document.getElementById("lCard_list").hidden=true;
+		document.getElementById("lCard_FilterSetting").hidden=false;
+		document.getElementById("lCard_SearchBox").hidden=true;
+		document.getElementById("lCard_SearchBtn").textContent="➖ Collapse and Re-Search";
+	}
+
+}
+
+main.resetLCardFilter=()=>{
+	main.doStrictSearch= true;
+	main.allowedCost=undefined;
+	main.allowedUpgrade=undefined;
+	main.showLCardFilterSetting();
+}
+
+
+main.getUniqueCostVal=()=>{
+	let uniqueCostVal=new Set();
+	for  (let tmpe of Object.values(main.cardCost)) {
+		for (let tmpe2 of tmpe) {
+			uniqueCostVal.add(tmpe2);
+		}
+	}
+	return uniqueCostVal;
+}
+
+main.getUniqueUgVal=()=>{
+	let tmp1=Infinity;
+	let tmp2=-Infinity;
+	for (let tmpe of Object.values(main.cardList)) {
+		tmp1=Math.min(tmpe,tmp1);
+		tmp2=Math.max(tmpe,tmp2);
+	}
+	return [tmp1,tmp2];
+}
+
+main.getCardDisplayName=(name)=>{
+	return main.cardDisplayNameMap[name]?main.cardDisplayNameMap[name]:name;
+}
+
+
+rendererPreload.getcardLibPromise.then((data) => {
+	main.cardList = data;
+	let tmp3='';
+	for (let tmpe in main.cardList) {
+		if (tmpe.substring(0,1)!==tmp3) {
+			tmp3=tmpe.substring(0,1);
+			document.getElementById("lCard_list").insertAdjacentHTML("beforeEnd","<h1 class=\"general textnegate lCardHeader ignoreDefExtendSize ExtendH\">"+tmp3+"</h1>");
+		}
+		for (let tmpi=0; tmpi<=main.cardList[tmpe]; tmpi++) {
+			main.toLoadCardAmount+=1;
+			let tmp1=undefined; let tmp2=undefined;
+			if (tmpi===0) {tmp1 =tmpe;} else {tmp1=tmpe+"+"+tmpi}
+			tmp2=new Image();
+			tmp2.classList.add("general"); tmp2.classList.add("lCard"); tmp2.classList.add("ignoreDefExtendSize"); tmp2.classList.add("addDefMarginBottom");  tmp2.classList.add("addDefMarginRight");tmp2.src="./cardImgs/"+tmp1+".png"; tmp2.onclick=(event)=> {main.onLibClick( main.transformThatImgSrcAttrib(event.target.attributes.src));};
+			tmp2.onload=()=>{
+				if (main.LoadedCardAmount<=main.toLoadCardAmount) {
+					main.LoadedCardAmount+=1;
+					if (main.LoadedCardAmount==main.toLoadCardAmount) {
+						document.getElementById('overlayScreenInit').style.visibility = 'hidden';	
+					}
+				}
+			};
+			document.getElementById("lCard_list").appendChild(tmp2);
+		 }
+	}
+	main.allowedCost={}
+	for (let tmpe of main.getUniqueCostVal()) {
+		main.allowedCost[tmpe]=false;
+	}
+	main.allowedUpgrade={}
+	for (let tmpe of main.getUniqueUgVal()) {
+		main.allowedUpgrade[tmpe]=false;
+	}
+	// setTimeout(
+	// 	()=>{document.getElementById('overlayScreenInit').style.visibility = 'hidden';},
+	// 	1000
+	// );
+})

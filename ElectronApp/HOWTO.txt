@@ -1,0 +1,7 @@
+1) Goto https://github.com/bjia56/portable-python/releases/tag/cpython-v3.11.9-build.6
+2) choose python-full... with choice of your OS
+3) Extract it, let the root folder of Python (not necessary same as extracted folder) sit inside  ./ModelSys/, bit also rename to "python"
+4) run "./ModelSys/python/bin/python.exe -m pip install --no-warn-script-location -U pip" under this directory as working directory
+5) run "./ModelSys/python/bin/python.exe -m pip install --no-warn-script-location onnxruntime tensorflow numpy==1.24.3 scikit-learn==1.3.0 joblib" under this directory as working directory
+>> if not work then delete the python directory then redo from 3) again but for this... used this
+>> $: ./ModelSys/python/bin/python.exe -m pip install --no-warn-script-location onnxruntime==1.19.2 tensorflow==2.17.1 numpy==1.24.3 scikit-learn==1.3.0 joblib==1.4.2
