@@ -35,6 +35,7 @@
   font-weight: 400;
   font-style: normal;
   font-optical-sizing: auto;
+  text-wrap-mode: wrap;
   border-radius: 1.5625vmin;
   user-select: none;
   -webkit-user-drag: none;
@@ -221,9 +222,12 @@ img {
   background-color: #00000080;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
-  font-weight: bold;
   flex: 0.25;
+}
 
+.pCard_NameReal {
+  font-weight: bold;
+  text-wrap: nowrap;
 }
 
 .setNegateColorBorder {
@@ -238,6 +242,7 @@ img {
 .setTextBold {
   font-weight: bold;
 }
+
 
 
 .sub_section {
