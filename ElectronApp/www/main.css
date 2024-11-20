@@ -202,6 +202,7 @@ img {
 }
 
 .pCard {
+  background-color: #00000080;
   cursor: pointer;
   flex: 1;
   flex-direction: column;
@@ -210,7 +211,7 @@ img {
 
 
 .pCard_Bg {
-  background-color: #00000080;
+
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   flex: 0.75;
@@ -219,7 +220,6 @@ img {
 }
 
 .pCard_Name {
-  background-color: #00000080;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
   flex: 0.25;

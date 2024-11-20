@@ -1,11 +1,11 @@
 const main = new Object();
 main.actionBtn = new Object();
 main.selectedCard = null;
-main.doStrictSearch= true;
-main.allowedCost=undefined;
-main.allowedUpgrade=undefined;
-main.LoadedCardAmount=0;
-main.toLoadCardAmount=0;
+main.doStrictSearch = true;
+main.allowedCost = undefined;
+main.allowedUpgrade = undefined;
+main.LoadedCardAmount = 0;
+main.toLoadCardAmount = 0;
 
 main.cardDisplayNameMap = {
 	"All Out Attack": "All-Out Attack",
@@ -39,7 +39,45 @@ main.predict = () => {
 	document.getElementById('overlayScreenInit_subText').innerText = "(program become unrespondsive for about 1 min, this is normal)";
 	document.getElementById('overlayScreenInit').style.visibility = '';
 	let tmp = rendererPreload.doPredict(main.getDeckStr());
-	tmp.then(() => {
+	tmp.then((data) => {
+		let idxPC1 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard1").children[0]));
+		let idxPC2 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard2").children[0]));
+		let idxPC3 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard3").children[0]));
+		let tmp1 = [idxPC1 < idxPC2, idxPC1 < idxPC3, idxPC2 < idxPC3];
+		if (tmp1[0]) {
+			if (tmp1[1]) {
+				if (tmp1[2]) {
+					// console.log([1,2,3])
+					document.getElementById("pCard2").style.backgroundColor="rgba(0%,25%,0%,50%)"
+					document.getElementById("pCard1").style.backgroundColor="rgba(0%,50%,0%,50%)"
+				} else {
+					// console.log([1,3,2])
+					document.getElementById("pCard2").style.backgroundColor="rgba(50%,0%,0%,50%)"
+					document.getElementById("pCard3").style.backgroundColor="rgba(25%,25%,0%,50%)"
+					document.getElementById("pCard1").style.backgroundColor="rgba(0%,50%,0%,50%)"
+				}
+			} else {
+				// console.log([2,3,1])
+				document.getElementById("pCard1").style.backgroundColor="rgba(0%,25%,0%,50%)"
+				document.getElementById("pCard3").style.backgroundColor="rgba(0%,50%,0%,50%)"
+			}
+		} else {
+			if (tmp1[1]) {
+				// console.log([2,1,3])
+				document.getElementById("pCard1").style.backgroundColor="rgba(0%,25%,0%,50%)"
+				document.getElementById("pCard2").style.backgroundColor="rgba(0%,50%,0%,50%)"
+			} else {
+				if (tmp1[2]) {
+					// console.log([3,1,2])
+					document.getElementById("pCard3").style.backgroundColor="rgba(0%,25%,0%,50%)"
+					document.getElementById("pCard2").style.backgroundColor="rgba(0%,50%,0%,50%)"
+				} else {
+					// console.log([3,2,1])
+					document.getElementById("pCard2").style.backgroundColor="rgba(0%,25%,0%,50%)"
+					document.getElementById("pCard3").style.backgroundColor="rgba(0%,50%,0%,50%)"
+				}
+			}
+		}
 		document.getElementById('overlayScreenInit').style.visibility = 'hidden';
 		document.getElementById('body').style.cursor = '';
 	})
@@ -51,7 +89,7 @@ main.clearDeck = () => {
 	if (main.selectedCard !== null && main.selectedCard[0] === "d") {
 		main.onEmptyAreaClick();
 	}
-	const tmp = document.getElementById("firstSection");
+	let tmp = document.getElementById("firstSection");
 	for (let index = tmp.children.length - 1; index > 0; index--) {
 		if (tmp.children[index].tagName == "DIV") {
 			tmp.removeChild(tmp.children[index]);
@@ -62,13 +100,13 @@ main.clearDeck = () => {
 
 
 main.getDeckStr = () => {
-	const tmp = document.getElementById("firstSection");
-	var tmp2 = [];
+	let tmp = document.getElementById("firstSection");
+	let tmp2 = [];
 	for (let index = 0; index < tmp.children.length; index++) {
 		if (tmp.children[index].tagName == "DIV") {
-			var tmp1 = tmp.children[index].getAttribute("userattrib0");
+			let tmp1 = tmp.children[index].getAttribute("userattrib0");
 			tmp1 = JSON.parse(tmp1);
-			var tmp_name = main.transform2CardAttrib2ImgName(tmp1);
+			let tmp_name = main.transform2CardAttrib2ImgName(tmp1);
 			tmp2.push(tmp_name);
 		}
 	}
@@ -79,7 +117,7 @@ main.getDeckStr = () => {
 main.onEmptyAreaClick = () => {
 	main.selectedCard = null;
 	document.getElementById("iCard_Bg").src = "questionMark.png";
-	const tmp = document.getElementById("iCard_Where");
+	let tmp = document.getElementById("iCard_Where");
 	tmp.innerText = "(Not yet selected)";
 	document.getElementById("action1Btn").hidden = true;
 	document.getElementById("action2Btn").hidden = true;
@@ -95,7 +133,7 @@ main.onDeckClick = (what) => {
 	let cardName = (JSON.parse(what.attributes.userattrib0.textContent))[0];
 	let cardUpgrade = (JSON.parse(what.attributes.userattrib0.textContent))[1];
 	main.selectedCard = ["d", what, cardName, cardUpgrade];
-	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName([cardName,cardUpgrade]) + ".png";
+	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName([cardName, cardUpgrade]) + ".png";
 	tmp = document.getElementById("iCard_Where");
 	tmp.innerText = "(Selected From Your Deck)";
 	document.getElementById("action1Btn_Text").innerHTML = "📖 Goto Card's Wiki URL";
@@ -112,19 +150,19 @@ main.onDeckClick = (what) => {
 	document.getElementById("action6Btn").hidden = false;
 	document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
 	document.getElementById("action2Btn").onclick = () => { main.actionBtn.removeFromDeck(main.selectedCard[1]); };
-	document.getElementById("action4Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2],main.selectedCard[3]],0); };
-	document.getElementById("action5Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2],main.selectedCard[3]],1); };
-	document.getElementById("action6Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2],main.selectedCard[3]],2); };
+	document.getElementById("action4Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 0); };
+	document.getElementById("action5Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 1); };
+	document.getElementById("action6Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 2); };
 	return;
 }
 
 
 main.onPredictClick = (idx) => {
-	let what= document.getElementById("midSection_A").children[idx];
+	let what = document.getElementById("midSection_A").children[idx];
 	if (what.children[0].attributes.src.textContent === "questionMark.png") {
 		main.selectedCard = ["p", what, null, null];
 		document.getElementById("iCard_Bg").src = "questionMark.png";
-		const tmp = document.getElementById("iCard_Where");
+		let tmp = document.getElementById("iCard_Where");
 		tmp.innerText = "(You are selected empty card slot)";
 		document.getElementById("action1Btn").hidden = true;
 		document.getElementById("action2Btn").hidden = true;
@@ -134,8 +172,8 @@ main.onPredictClick = (idx) => {
 		document.getElementById("action6Btn").hidden = true;
 	} else {
 		let tmp = main.transformThatImgTo2CardAttrib(what.children[0]);
-		main.selectedCard = ["p", what, tmp[0],tmp[1] ];
-		document.getElementById("iCard_Bg").src =what.children[0].src;
+		main.selectedCard = ["p", what, tmp[0], tmp[1]];
+		document.getElementById("iCard_Bg").src = what.children[0].src;
 		tmp = document.getElementById("iCard_Where");
 		tmp.innerText = "(Selected From Predict Placeholder)";
 		document.getElementById("action1Btn_Text").innerHTML = "📖 Goto Card's Wiki URL";
@@ -147,13 +185,13 @@ main.onPredictClick = (idx) => {
 		document.getElementById("action5Btn").hidden = true;
 		document.getElementById("action6Btn").hidden = true;
 		document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
-		document.getElementById("action2Btn").onclick = () => { main.actionBtn.putCard2Deck([main.selectedCard[2],main.selectedCard[3]]); };
+		document.getElementById("action2Btn").onclick = () => { main.actionBtn.putCard2Deck([main.selectedCard[2], main.selectedCard[3]]); };
 	}
 	return;
 }
 
 main.onLibClick = (data) => {
-	main.selectedCard = ["l", undefined, data[0],data[1]];
+	main.selectedCard = ["l", undefined, data[0], data[1]];
 	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
 	tmp = document.getElementById("iCard_Where");
 	tmp.innerText = "(Selected From Library)";
@@ -170,24 +208,24 @@ main.onLibClick = (data) => {
 	document.getElementById("action6Btn").hidden = true;
 	document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
 	document.getElementById("action2Btn").onclick = () => { main.actionBtn.putCard2Deck(data); };
-	document.getElementById("action3Btn").onclick = () => { main.actionBtn.putCard2Predict(data,0); };
-	document.getElementById("action4Btn").onclick = () => { main.actionBtn.putCard2Predict(data,1); };
-	document.getElementById("action5Btn").onclick = () => { main.actionBtn.putCard2Predict(data,2); };
+	document.getElementById("action3Btn").onclick = () => { main.actionBtn.putCard2Predict(data, 0); };
+	document.getElementById("action4Btn").onclick = () => { main.actionBtn.putCard2Predict(data, 1); };
+	document.getElementById("action5Btn").onclick = () => { main.actionBtn.putCard2Predict(data, 2); };
 	return;
 }
 
 main.actionBtn.goToWiki = (name) => {
-	let tmpDE1=document.getElementById('overlayScreenInit');
-	let tmpDE2=document.getElementById('overlayScreenWiki');
-	let tmpDE3=document.getElementById('olsWikiIFrame');
+	let tmpDE1 = document.getElementById('overlayScreenInit');
+	let tmpDE2 = document.getElementById('overlayScreenWiki');
+	let tmpDE3 = document.getElementById('olsWikiIFrame');
 	/* for attempt show wait cursor while load */
 	document.getElementById('body').style.cursor = 'wait';
 	document.getElementById('overlayScreenInit_mainText').innerText = "⌛ Loading Wiki Page...";
 	document.getElementById('overlayScreenInit_subText').innerText = "";
 	tmpDE1.style.visibility = '';
-	name=main.getCardDisplayName(name);
-	tmpDE3.onload=()=>{
-		tmpDE3.onload=undefined;
+	name = main.getCardDisplayName(name);
+	tmpDE3.onload = () => {
+		tmpDE3.onload = undefined;
 		document.getElementById('body').style.cursor = '';
 		tmpDE2.style.visibility = 'visible';
 		tmpDE1.style.visibility = 'hidden';
@@ -195,9 +233,9 @@ main.actionBtn.goToWiki = (name) => {
 	tmpDE3.src = "https://slay-the-spire.fandom.com/wiki/" + name;
 }
 
-main.onWikiClosing=()=>{
-	document.getElementById('overlayScreenWiki').style.visibility='';
-	document.getElementById('olsWikiIFrame').src='';
+main.onWikiClosing = () => {
+	document.getElementById('overlayScreenWiki').style.visibility = '';
+	document.getElementById('olsWikiIFrame').src = '';
 }
 
 main.actionBtn.removeFromDeck = (what) => {
@@ -205,98 +243,103 @@ main.actionBtn.removeFromDeck = (what) => {
 	what.remove();
 }
 
-main.transformThatImgTo2CardAttrib=(img)=>{
-	let tmp = decodeURI(img.src).split('/').at(-1).replace(".png","").split("+");
-	if (tmp.length===1) {
-		tmp=[tmp[0],0];
+main.transformThatImgTo2CardAttrib = (img) => {
+	let tmp = decodeURI(img.src).split('/').at(-1).replace(".png", "").split("+");
+	if (tmp.length === 1) {
+		tmp = [tmp[0], 0];
 	}
-	tmp[1]=parseInt(tmp[1]);
+	tmp[1] = parseInt(tmp[1]);
 	return tmp;
 }
 
-main.transform2CardAttrib2ImgName=(data)=>{
-	if (data[1]===0) {return data[0];}
-	else { return data[0]+"+"+data[1];}
+main.getInternalNameFromImg = (img) => {
+	let tmp = decodeURI(img.src).split('/').at(-1).replace(".png", "");
+	return tmp;
 }
 
-main.lCardSearch=()=>{
+main.transform2CardAttrib2ImgName = (data) => {
+	if (data[1] === 0) { return data[0]; }
+	else { return data[0] + "+" + data[1]; }
+}
+
+main.lCardSearch = () => {
 	document.getElementById('body').style.cursor = 'wait';
 	let tmp = document.getElementById("lCard_SearchBox").value.toLowerCase();
-	if (tmp==='') {
+	if (tmp === '') {
 		for (let tmpe of document.getElementById("lCard_list").children) {
-			tmpe.hidden=false;
+			tmpe.hidden = false;
 		}
 	}
 	else {
-		tmp=tmp.split(' ');
-		let tmp3=undefined;
+		tmp = tmp.split(' ');
+		let tmp3 = undefined;
 		for (let tmpe of document.getElementById("lCard_list").children) {
-			if (tmpe.tagName!=="IMG") {
-				if (tmp3===undefined) {
+			if (tmpe.tagName !== "IMG") {
+				if (tmp3 === undefined) {
 				} else {
-					tmp3[0].hidden=!tmp3[1];
+					tmp3[0].hidden = !tmp3[1];
 				}
-				tmp3=[tmpe,false];
+				tmp3 = [tmpe, false];
 				continue;
 			} else {
 				let tmp2 = main.transformThatImgTo2CardAttrib(tmpe)[0];
-				tmp2=(main.getCardDisplayName(tmp2)).toLowerCase();
+				tmp2 = (main.getCardDisplayName(tmp2)).toLowerCase();
 				if (!main.doStrictSearch) {
-					tmpe.hidden=true;
+					tmpe.hidden = true;
 					for (let tmpe2 of tmp) {
 						if (tmp2.includes(tmpe2)) {
-							tmpe.hidden=false;
+							tmpe.hidden = false;
 							break;
 						}
 					}
 				} else {
-					tmpe.hidden=false;
+					tmpe.hidden = false;
 					for (let tmpe2 of tmp) {
 						if (!tmp2.includes(tmpe2)) {
-							tmpe.hidden=true;
+							tmpe.hidden = true;
 							break;
 						}
 					}
-					
+
 				}
-				if (!tmpe.hidden) {tmp3[1]=true;}
+				if (!tmpe.hidden) { tmp3[1] = true; }
 			}
 		}
-		tmp3[0].hidden=!tmp3[1];
+		tmp3[0].hidden = !tmp3[1];
 	}
 	document.getElementById('body').style.cursor = '';
 }
 
-main.showLCardFilterSetting=()=>{
+main.showLCardFilterSetting = () => {
 	if (document.getElementById("lCard_list").hidden) {
-		document.getElementById("lCard_FilterSetting").hidden=true;
-		document.getElementById("lCard_SearchBox").hidden=false;
-		document.getElementById("lCard_SearchBtn").innerText="⚙️ Filter";
+		document.getElementById("lCard_FilterSetting").hidden = true;
+		document.getElementById("lCard_SearchBox").hidden = false;
+		document.getElementById("lCard_SearchBtn").innerText = "⚙️ Filter";
 		main.lCardSearch();
-		document.getElementById("lCard_list").hidden=false;
-		
+		document.getElementById("lCard_list").hidden = false;
+
 	}
 	else {
-		document.getElementById("lCard_FS_doSS").checked=main.doStrictSearch;
-		document.getElementById("lCard_list").hidden=true;
-		document.getElementById("lCard_FilterSetting").hidden=false;
-		document.getElementById("lCard_SearchBox").hidden=true;
-		document.getElementById("lCard_SearchBtn").innerText="➖ Collapse and Re-Search";
+		document.getElementById("lCard_FS_doSS").checked = main.doStrictSearch;
+		document.getElementById("lCard_list").hidden = true;
+		document.getElementById("lCard_FilterSetting").hidden = false;
+		document.getElementById("lCard_SearchBox").hidden = true;
+		document.getElementById("lCard_SearchBtn").innerText = "➖ Collapse and Re-Search";
 	}
 
 }
 
-main.resetLCardFilter=()=>{
-	main.doStrictSearch= true;
-	main.allowedCost=undefined;
-	main.allowedUpgrade=undefined;
+main.resetLCardFilter = () => {
+	main.doStrictSearch = true;
+	main.allowedCost = undefined;
+	main.allowedUpgrade = undefined;
 	main.showLCardFilterSetting();
 }
 
 
-main.getUniqueCostVal=()=>{
-	let uniqueCostVal=new Set();
-	for  (let tmpe of Object.values(main.cardCost)) {
+main.getUniqueCostVal = () => {
+	let uniqueCostVal = new Set();
+	for (let tmpe of Object.values(main.cardCost)) {
 		for (let tmpe2 of tmpe) {
 			uniqueCostVal.add(tmpe2);
 		}
@@ -304,79 +347,80 @@ main.getUniqueCostVal=()=>{
 	return uniqueCostVal;
 }
 
-main.getUniqueUgVal=()=>{
-	let tmp1=Infinity;
-	let tmp2=-Infinity;
+main.getUniqueUgVal = () => {
+	let tmp1 = Infinity;
+	let tmp2 = -Infinity;
 	for (let tmpe of Object.values(main.cardList)) {
-		tmp1=Math.min(tmpe,tmp1);
-		tmp2=Math.max(tmpe,tmp2);
+		tmp1 = Math.min(tmpe, tmp1);
+		tmp2 = Math.max(tmpe, tmp2);
 	}
-	return [tmp1,tmp2];
+	return [tmp1, tmp2];
 }
 
-main.getCardDisplayName=(name)=>{
-	return main.cardDisplayNameMap[name]?main.cardDisplayNameMap[name]:name;
+main.getCardDisplayName = (name) => {
+	return main.cardDisplayNameMap[name] ? main.cardDisplayNameMap[name] : name;
 }
 
-main.actionBtn.putCard2Deck=(data)=>{
+main.actionBtn.putCard2Deck = (data) => {
 	console.log(data);
-	let cardInternalName=data[0];
-	let cardUg=data[1];
-	let cardCost=main.cardCost[cardInternalName][cardUg];
-	let cardDpName=main.getCardDisplayName(cardInternalName);
-	let cardDpUg="";
-	if (cardUg>0) {
-		cardDpUg=" ( + "+cardUg+" )";
+	let cardInternalName = data[0];
+	let cardUg = data[1];
+	let cardCost = main.cardCost[cardInternalName][cardUg];
+	let cardDpName = main.getCardDisplayName(cardInternalName);
+	let cardDpUg = "";
+	if (cardUg > 0) {
+		cardDpUg = " ( + " + cardUg + " )";
 	}
 	// userattrib0=\'["'+cardInternalName+'",'+cardUg+']\'
-	let tmp='<div customtype="dCard" hidden  onclick="main.onDeckClick(this)" class="general dCard ignoreDefExtendSize ExtendH addDefBorder addDefMarginBottom  ">\n'+
-		'<div class="general dCardHeadNum   addDefBorder setNegateColorBorder"><p class=" general text"></p></div>\n'+
+	let tmp = '<div customtype="dCard" hidden  onclick="main.onDeckClick(this)" class="general dCard ignoreDefExtendSize ExtendH addDefBorder addDefMarginBottom  ">\n' +
+		'<div class="general dCardHeadNum   addDefBorder setNegateColorBorder"><p class=" general text"></p></div>\n' +
 		'<div class="general dCardName textnegate  addScrollOverflow_H"></div>\n</div>';
-	document.getElementById("firstSection").insertAdjacentHTML("beforeend",tmp);
-	let tmp1 = document.getElementById("firstSection").children[document.getElementById("firstSection").children.length-1];
-	tmp1.setAttribute("userattrib0",JSON.stringify([cardInternalName,cardUg]));
-	tmp1.children[0].innerText=cardCost;
-	tmp1.children[1].innerText=cardDpName+cardDpUg;
+	document.getElementById("firstSection").insertAdjacentHTML("beforeend", tmp);
+	let tmp1 = document.getElementById("firstSection").children[document.getElementById("firstSection").children.length - 1];
+	tmp1.setAttribute("userattrib0", JSON.stringify([cardInternalName, cardUg]));
+	tmp1.children[0].innerText = cardCost;
+	tmp1.children[1].innerText = cardDpName + cardDpUg;
 }
 
-main.actionBtn.putCard2Predict=(data,idx)=>{
+main.actionBtn.putCard2Predict = (data, idx) => {
 	let mainE = document.getElementById("midSection_A").children[idx];
-	mainE.children[0].src="./cardImgs/"+main.transform2CardAttrib2ImgName(data)+".png";
-	mainE.children[1].children[0].innerText=main.getCardDisplayName(data[0])+" (Cost: "+main.cardCost[data[0]][main.cardList[data[0]]]+", Upgrade: "+main.cardList[data[0]]+")";
+	mainE.children[0].src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
+	mainE.children[1].children[0].innerText = main.getCardDisplayName(data[0]) + " (Cost: " + main.cardCost[data[0]][main.cardList[data[0]]] + ", Upgrade: " + main.cardList[data[0]] + ")";
 }
+
 
 rendererPreload.getcardLibPromise.then((data) => {
 	main.cardList = data;
-	let tmp3='';
+	let tmp3 = '';
 	for (let tmpe in main.cardList) {
-		if (tmpe.substring(0,1)!==tmp3) {
-			tmp3=tmpe.substring(0,1);
-			document.getElementById("lCard_list").insertAdjacentHTML("beforeEnd","<h1 class=\"general textnegate lCardHeader ignoreDefExtendSize ExtendH\">"+tmp3+"</h1>");
+		if (tmpe.substring(0, 1) !== tmp3) {
+			tmp3 = tmpe.substring(0, 1);
+			document.getElementById("lCard_list").insertAdjacentHTML("beforeEnd", "<h1 class=\"general textnegate lCardHeader ignoreDefExtendSize ExtendH\">" + tmp3 + "</h1>");
 		}
-		for (let tmpi=0; tmpi<=main.cardList[tmpe]; tmpi++) {
-			main.toLoadCardAmount+=1;
-			let tmp1=undefined; let tmp2=undefined;
-			if (tmpi===0) {tmp1 =tmpe;} else {tmp1=tmpe+"+"+tmpi}
-			tmp2=new Image();
-			tmp2.classList.add("general"); tmp2.classList.add("lCard"); tmp2.classList.add("ignoreDefExtendSize"); tmp2.classList.add("addDefMarginBottom");  tmp2.classList.add("addDefMarginRight");tmp2.src="./cardImgs/"+tmp1+".png"; tmp2.onclick=(event)=> {main.onLibClick( main.transformThatImgTo2CardAttrib(event.target));};
-			tmp2.onload=()=>{
-				if (main.LoadedCardAmount<=main.toLoadCardAmount) {
-					main.LoadedCardAmount+=1;
-					if (main.LoadedCardAmount==main.toLoadCardAmount) {
-						document.getElementById('overlayScreenInit').style.visibility = 'hidden';	
+		for (let tmpi = 0; tmpi <= main.cardList[tmpe]; tmpi++) {
+			main.toLoadCardAmount += 1;
+			let tmp1 = undefined; let tmp2 = undefined;
+			if (tmpi === 0) { tmp1 = tmpe; } else { tmp1 = tmpe + "+" + tmpi }
+			tmp2 = new Image();
+			tmp2.classList.add("general"); tmp2.classList.add("lCard"); tmp2.classList.add("ignoreDefExtendSize"); tmp2.classList.add("addDefMarginBottom"); tmp2.classList.add("addDefMarginRight"); tmp2.src = "./cardImgs/" + tmp1 + ".png"; tmp2.onclick = (event) => { main.onLibClick(main.transformThatImgTo2CardAttrib(event.target)); };
+			tmp2.onload = () => {
+				if (main.LoadedCardAmount <= main.toLoadCardAmount) {
+					main.LoadedCardAmount += 1;
+					if (main.LoadedCardAmount == main.toLoadCardAmount) {
+						document.getElementById('overlayScreenInit').style.visibility = 'hidden';
 					}
 				}
 			};
 			document.getElementById("lCard_list").appendChild(tmp2);
-		 }
+		}
 	}
-	main.allowedCost={}
+	main.allowedCost = {}
 	for (let tmpe of main.getUniqueCostVal()) {
-		main.allowedCost[tmpe]=false;
+		main.allowedCost[tmpe] = false;
 	}
-	main.allowedUpgrade={}
+	main.allowedUpgrade = {}
 	for (let tmpe of main.getUniqueUgVal()) {
-		main.allowedUpgrade[tmpe]=false;
+		main.allowedUpgrade[tmpe] = false;
 	}
 	// setTimeout(
 	// 	()=>{document.getElementById('overlayScreenInit').style.visibility = 'hidden';},
