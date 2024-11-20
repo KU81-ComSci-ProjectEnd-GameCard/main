@@ -90,11 +90,11 @@ main.predict = () => {
 			} else {
 				// console.log([2,3,1])
 				tmp2=[document.getElementById("pCard1"),tmp3[0]];
-				main.predictHelper1(tmp2[0],3,tmp2[1]);
-				tmp2=[document.getElementById("pCard3"),tmp3[2]];
 				main.predictHelper1(tmp2[0],2,tmp2[1]);
-				tmp2=[document.getElementById("pCard2"),tmp3[1]];
+				tmp2=[document.getElementById("pCard3"),tmp3[2]];
 				main.predictHelper1(tmp2[0],1,tmp2[1]);
+				tmp2=[document.getElementById("pCard2"),tmp3[1]];
+				main.predictHelper1(tmp2[0],3,tmp2[1]);
 			}
 		} else {
 			if (tmp1[1]) {
@@ -109,11 +109,11 @@ main.predict = () => {
 				if (tmp1[2]) {
 					// console.log([3,1,2])
 					tmp2=[document.getElementById("pCard2"),tmp3[1]];
-					main.predictHelper1(tmp2[0],3,tmp2[1]);
-					tmp2=[document.getElementById("pCard1"),tmp3[0]];
-					main.predictHelper1(tmp2[0],2,tmp2[1]);
-					tmp2=[document.getElementById("pCard3"),tmp3[2]];
 					main.predictHelper1(tmp2[0],1,tmp2[1]);
+					tmp2=[document.getElementById("pCard1"),tmp3[0]];
+					main.predictHelper1(tmp2[0],3,tmp2[1]);
+					tmp2=[document.getElementById("pCard3"),tmp3[2]];
+					main.predictHelper1(tmp2[0],2,tmp2[1]);
 				} else {
 					// console.log([3,2,1])
 					tmp2=[document.getElementById("pCard1"),tmp3[0]];
