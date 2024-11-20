@@ -48,7 +48,9 @@ main.predict = () => {
 			if (tmp1[1]) {
 				if (tmp1[2]) {
 					// console.log([1,2,3])
-					document.getElementById("pCard2").style.backgroundColor="rgba(0%,25%,0%,50%)"
+					
+					document.getElementById("pCard3").style.backgroundColor="rgba(50%,0%,0%,50%)"
+					document.getElementById("pCard2").style.backgroundColor="rgba(25%,25%,0%,50%)"
 					document.getElementById("pCard1").style.backgroundColor="rgba(0%,50%,0%,50%)"
 				} else {
 					// console.log([1,3,2])
@@ -58,22 +60,26 @@ main.predict = () => {
 				}
 			} else {
 				// console.log([2,3,1])
-				document.getElementById("pCard1").style.backgroundColor="rgba(0%,25%,0%,50%)"
-				document.getElementById("pCard3").style.backgroundColor="rgba(0%,50%,0%,50%)"
+				document.getElementById("pCard1").style.backgroundColor="rgba(50%,0%,0%,50%)"
+				document.getElementById("pCard3").style.backgroundColor="rgba(25%,25%,0%,50%)"
+				document.getElementById("pCard2").style.backgroundColor="rgba(0%,50%,0%,50%)"
 			}
 		} else {
 			if (tmp1[1]) {
 				// console.log([2,1,3])
-				document.getElementById("pCard1").style.backgroundColor="rgba(0%,25%,0%,50%)"
+				document.getElementById("pCard3").style.backgroundColor="rgba(50%,0%,0%,50%)"
+				document.getElementById("pCard1").style.backgroundColor="rgba(25%,25%,0%,50%)"
 				document.getElementById("pCard2").style.backgroundColor="rgba(0%,50%,0%,50%)"
 			} else {
 				if (tmp1[2]) {
 					// console.log([3,1,2])
-					document.getElementById("pCard3").style.backgroundColor="rgba(0%,25%,0%,50%)"
-					document.getElementById("pCard2").style.backgroundColor="rgba(0%,50%,0%,50%)"
+					document.getElementById("pCard2").style.backgroundColor="rgba(50%,0%,0%,50%)"
+					document.getElementById("pCard1").style.backgroundColor="rgba(25%,25%,0%,50%)"
+					document.getElementById("pCard3").style.backgroundColor="rgba(0%,50%,0%,50%)"
 				} else {
 					// console.log([3,2,1])
-					document.getElementById("pCard2").style.backgroundColor="rgba(0%,25%,0%,50%)"
+					document.getElementById("pCard1").style.backgroundColor="rgba(50%,0%,0%,50%)"
+					document.getElementById("pCard2").style.backgroundColor="rgba(25%,25%,0%,50%)"
 					document.getElementById("pCard3").style.backgroundColor="rgba(0%,50%,0%,50%)"
 				}
 			}
@@ -362,7 +368,6 @@ main.getCardDisplayName = (name) => {
 }
 
 main.actionBtn.putCard2Deck = (data) => {
-	console.log(data);
 	let cardInternalName = data[0];
 	let cardUg = data[1];
 	let cardCost = main.cardCost[cardInternalName][cardUg];
@@ -385,7 +390,7 @@ main.actionBtn.putCard2Deck = (data) => {
 main.actionBtn.putCard2Predict = (data, idx) => {
 	let mainE = document.getElementById("midSection_A").children[idx];
 	mainE.children[0].src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
-	mainE.children[1].children[0].innerText = main.getCardDisplayName(data[0]) + " (Cost: " + main.cardCost[data[0]][main.cardList[data[0]]] + ", Upgrade: " + main.cardList[data[0]] + ")";
+	mainE.children[1].children[0].innerText = main.getCardDisplayName(data[0]) + " (Cost: " + main.cardCost[data[0]][data[1]] + ", Upgrade: " + data[1] + ")";
 }
 
 
