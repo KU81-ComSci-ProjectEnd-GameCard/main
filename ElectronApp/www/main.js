@@ -50,6 +50,7 @@ main.predictHelper2=(percentile)=>{
 }
 
 main.predict = () => {
+	main.resetPredictData();
 	/* for attempt show wait cursor while predict */
 	document.getElementById('body').style.cursor = 'wait';
 	document.getElementById('overlayScreenInit_mainText').innerText = "⌛ Predicting...";
@@ -430,11 +431,22 @@ main.actionBtn.putCard2Deck = (data) => {
 }
 
 main.actionBtn.putCard2Predict = (data, idx) => {
+	main.resetPredictData();
 	let mainE = document.getElementById("midSection_A").children[idx];
 	mainE.children[0].src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
 	mainE.children[1].children[0].innerText = main.getCardDisplayName(data[0]) + " (Cost: " + main.cardCost[data[0]][data[1]] + ", Upgrade: " + data[1] + ")";
 }
 
+main.resetPredictData=()=>{
+	if (main.inShowPredictData) {
+		for (let tmpe of [1,2,3]) {
+			tmpe=document.getElementById("pCard"+tmpe);
+			tmpe.style.backgroundColor="";
+			tmpe.children[1].children[0].innerText=tmpe.children[1].children[0].innerText.split("\n")[1];
+			main.inShowPredictData=false;
+		}
+	}
+}
 
 rendererPreload.getcardLibPromise.then((data) => {
 	main.cardList = data;
