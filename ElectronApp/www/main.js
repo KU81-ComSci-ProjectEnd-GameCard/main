@@ -51,86 +51,101 @@ main.predictHelper2=(percentile)=>{
 
 main.predict = () => {
 	main.resetPredictData();
-	/* for attempt show wait cursor while predict */
-	document.getElementById('body').style.cursor = 'wait';
-	document.getElementById('overlayScreenInit_mainText').innerText = "⌛ Predicting...";
-	document.getElementById('overlayScreenInit_subText').innerText = "(program become unrespondsive for about 1 min, this is normal)";
-	document.getElementById('overlayScreenInit').style.visibility = '';
-	let tmp = rendererPreload.doPredict(main.getDeckStr());
-	tmp.then((data) => {
-		let idxPC1 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard1").children[0]));
-		let idxPC2 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard2").children[0]));
-		let idxPC3 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard3").children[0]));
-		let tmp1 = [idxPC1 < idxPC2, idxPC1 < idxPC3, idxPC2 < idxPC3];
-		let tmp3= [
-			100-100*(idxPC1/(data.split(",").length-1)),
-			100-100*(idxPC2/(data.split(",").length-1)),
-			100-100*(idxPC3/(data.split(",").length-1))
-		];
-		console.log(tmp3);
-		let tmp2= undefined;
-		if (tmp1[0]) {
-			if (tmp1[1]) {
-				if (tmp1[2]) {
-					// console.log([1,2,3])
-					tmp2=[document.getElementById("pCard3"),tmp3[2]];
-					main.predictHelper1(tmp2[0],3,tmp2[1]);
-					tmp2=[document.getElementById("pCard2"),tmp3[1]];
-					main.predictHelper1(tmp2[0],2,tmp2[1]);
-					tmp2=[document.getElementById("pCard1"),tmp3[0]];
-					main.predictHelper1(tmp2[0],1,tmp2[1]);
+	let tmp4 = [
+		document.getElementById("pCard1").children[0].src.split("/").at(-1)!=="questionMark.png",
+		document.getElementById("pCard2").children[0].src.split("/").at(-1)!=="questionMark.png",
+		document.getElementById("pCard3").children[0].src.split("/").at(-1)!=="questionMark.png",
+	]
+	if (tmp4.every((x)=>{return x;})) {
+		/* for attempt show wait cursor while predict */
+		document.getElementById('body').style.cursor = 'wait';
+		document.getElementById('overlayScreenInit_mainText').innerText = "⌛ Predicting...";
+		document.getElementById('overlayScreenInit_subText').innerText = "(program become unrespondsive for about 1 min, this is normal)";
+		document.getElementById('overlayScreenInit').style.visibility = '';
+		let tmp = rendererPreload.doPredict(main.getDeckStr());
+		tmp.then((data) => {
+			let idxPC1 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard1").children[0]));
+			let idxPC2 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard2").children[0]));
+			let idxPC3 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard3").children[0]));
+			let tmp1 = [idxPC1 < idxPC2, idxPC1 < idxPC3, idxPC2 < idxPC3];
+			let tmp3= [
+				100-100*(idxPC1/(data.split(",").length-1)),
+				100-100*(idxPC2/(data.split(",").length-1)),
+				100-100*(idxPC3/(data.split(",").length-1))
+			];
+			console.log(tmp3);
+			let tmp2= undefined;
+			if (tmp1[0]) {
+				if (tmp1[1]) {
+					if (tmp1[2]) {
+						// console.log([1,2,3])
+						tmp2=[document.getElementById("pCard3"),tmp3[2]];
+						main.predictHelper1(tmp2[0],3,tmp2[1]);
+						tmp2=[document.getElementById("pCard2"),tmp3[1]];
+						main.predictHelper1(tmp2[0],2,tmp2[1]);
+						tmp2=[document.getElementById("pCard1"),tmp3[0]];
+						main.predictHelper1(tmp2[0],1,tmp2[1]);
+					} else {
+						// console.log([1,3,2])
+						tmp2=[document.getElementById("pCard2"),tmp3[1]];
+						main.predictHelper1(tmp2[0],3,tmp2[1]);
+						tmp2=[document.getElementById("pCard3"),tmp3[2]];
+						main.predictHelper1(tmp2[0],2,tmp2[1]);
+						tmp2=[document.getElementById("pCard1"),tmp3[0]];
+						main.predictHelper1(tmp2[0],1,tmp2[1]);
+					}
 				} else {
-					// console.log([1,3,2])
+					// console.log([2,3,1])
+					tmp2=[document.getElementById("pCard1"),tmp3[0]];
+					main.predictHelper1(tmp2[0],2,tmp2[1]);
+					tmp2=[document.getElementById("pCard3"),tmp3[2]];
+					main.predictHelper1(tmp2[0],1,tmp2[1]);
 					tmp2=[document.getElementById("pCard2"),tmp3[1]];
 					main.predictHelper1(tmp2[0],3,tmp2[1]);
-					tmp2=[document.getElementById("pCard3"),tmp3[2]];
-					main.predictHelper1(tmp2[0],2,tmp2[1]);
-					tmp2=[document.getElementById("pCard1"),tmp3[0]];
-					main.predictHelper1(tmp2[0],1,tmp2[1]);
 				}
 			} else {
-				// console.log([2,3,1])
-				tmp2=[document.getElementById("pCard1"),tmp3[0]];
-				main.predictHelper1(tmp2[0],2,tmp2[1]);
-				tmp2=[document.getElementById("pCard3"),tmp3[2]];
-				main.predictHelper1(tmp2[0],1,tmp2[1]);
-				tmp2=[document.getElementById("pCard2"),tmp3[1]];
-				main.predictHelper1(tmp2[0],3,tmp2[1]);
+				if (tmp1[1]) {
+					// console.log([2,1,3])
+					tmp2=[document.getElementById("pCard3"),tmp3[2]];
+					main.predictHelper1(tmp2[0],3,tmp2[1]);
+					tmp2=[document.getElementById("pCard1"),tmp3[0]];
+					main.predictHelper1(tmp2[0],2,tmp2[1]);
+					tmp2=[document.getElementById("pCard2"),tmp3[1]];
+					main.predictHelper1(tmp2[0],1,tmp2[1]);
+				} else {
+					if (tmp1[2]) {
+						// console.log([3,1,2])
+						tmp2=[document.getElementById("pCard2"),tmp3[1]];
+						main.predictHelper1(tmp2[0],1,tmp2[1]);
+						tmp2=[document.getElementById("pCard1"),tmp3[0]];
+						main.predictHelper1(tmp2[0],3,tmp2[1]);
+						tmp2=[document.getElementById("pCard3"),tmp3[2]];
+						main.predictHelper1(tmp2[0],2,tmp2[1]);
+					} else {
+						// console.log([3,2,1])
+						tmp2=[document.getElementById("pCard1"),tmp3[0]];
+						main.predictHelper1(tmp2[0],3,tmp2[1]);
+						tmp2=[document.getElementById("pCard2"),tmp3[1]];
+						main.predictHelper1(tmp2[0],2,tmp2[1]);
+						tmp2=[document.getElementById("pCard3"),tmp3[2]];
+						main.predictHelper1(tmp2[0],1,tmp2[1]);
+					}
+				}
 			}
-		} else {
-			if (tmp1[1]) {
-				// console.log([2,1,3])
-				tmp2=[document.getElementById("pCard3"),tmp3[2]];
-				main.predictHelper1(tmp2[0],3,tmp2[1]);
-				tmp2=[document.getElementById("pCard1"),tmp3[0]];
-				main.predictHelper1(tmp2[0],2,tmp2[1]);
-				tmp2=[document.getElementById("pCard2"),tmp3[1]];
-				main.predictHelper1(tmp2[0],1,tmp2[1]);
-			} else {
-				if (tmp1[2]) {
-					// console.log([3,1,2])
-					tmp2=[document.getElementById("pCard2"),tmp3[1]];
-					main.predictHelper1(tmp2[0],1,tmp2[1]);
-					tmp2=[document.getElementById("pCard1"),tmp3[0]];
-					main.predictHelper1(tmp2[0],3,tmp2[1]);
-					tmp2=[document.getElementById("pCard3"),tmp3[2]];
-					main.predictHelper1(tmp2[0],2,tmp2[1]);
-				} else {
-					// console.log([3,2,1])
-					tmp2=[document.getElementById("pCard1"),tmp3[0]];
-					main.predictHelper1(tmp2[0],3,tmp2[1]);
-					tmp2=[document.getElementById("pCard2"),tmp3[1]];
-					main.predictHelper1(tmp2[0],2,tmp2[1]);
-					tmp2=[document.getElementById("pCard3"),tmp3[2]];
-					main.predictHelper1(tmp2[0],1,tmp2[1]);
-				}
+			document.getElementById('overlayScreenInit').style.visibility = 'hidden';
+			document.getElementById('body').style.cursor = '';
+		})
+		return tmp;
+	} else {
+		for (let tmpe of [1,2,3]) {
+			let tmp5=document.getElementById("pCard"+tmpe)
+			tmp5.children[1].children[0].innerText="<Cannot Predict, any of predict card placeholder is yet empty.>\n"+tmp5.children[1].children[0].innerText;
+			if (tmp4[tmpe-1]) {} else {
+				tmp5.style.backgroundColor="rgba(50%,0%,0%,100%)";
 			}
 		}
-		main.inShowPredictData=true;
-		document.getElementById('overlayScreenInit').style.visibility = 'hidden';
-		document.getElementById('body').style.cursor = '';
-	})
-	return tmp;
+	}
+	main.inShowPredictData=true;
 };
 
 
