@@ -467,6 +467,11 @@ main.resetPredictData=()=>{
 	}
 }
 
+main.goToMainPaneOfRedSection=()=>{
+	document.getElementById("iCard_NextPane").hidden=true;
+	document.getElementById("iCard_Pane").hidden=false;
+}
+
 rendererPreload.getcardLibPromise.then((data) => {
 	main.cardList = data;
 	let tmp3 = '';

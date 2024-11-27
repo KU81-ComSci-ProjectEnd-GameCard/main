@@ -356,8 +356,23 @@ img {
   image-rendering: pixelated;
 }
 
+/* set same as #iCard_Pane */
+#iCard_NextPane {
+  padding-top: 0.78125vmin;
+  padding-bottom: 0.78125vmin;
+  flex: 2.86;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-item but cross-axis of the line */
+  align-items: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-self but cross-axis of the line */
+  align-self: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
+  align-content: start;
+}
+
+/* set same to #iCard_NextPane */
 #iCard_Pane {
   padding-top: 0.78125vmin;
+  padding-bottom: 0.78125vmin;
   flex: 2.86;
   /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-item but cross-axis of the line */
   align-items: start;
