@@ -243,6 +243,9 @@ img {
   font-weight: bold;
 }
 
+.settextLargerSet1 {
+  font-size: 3.125vmin;
+}
 
 
 .sub_section {
@@ -358,6 +361,7 @@ img {
 
 /* set same as #iCard_Pane */
 #iCard_NextPane {
+  display: none;
   padding-top: 0.78125vmin;
   padding-bottom: 0.78125vmin;
   flex: 2.86;
@@ -367,6 +371,16 @@ img {
   align-self: start;
   /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
   align-content: start;
+  flex-direction: column;
+  
+}
+
+#iCard_NextPane_btn {
+  flex: 1;
+}
+
+#iCard_NextPane_div {
+  flex: 15;
 }
 
 /* set same to #iCard_NextPane */
@@ -381,6 +395,8 @@ img {
   /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
   align-content: start;
 }
+
+
 
 #iCard_Where {
   font-size: 3.125vmin;

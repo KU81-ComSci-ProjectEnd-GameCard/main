@@ -177,6 +177,7 @@ main.getDeckStr = () => {
 
 
 main.onEmptyAreaClick = () => {
+	main.goToMainPaneOfRedSection();
 	main.selectedCard = null;
 	document.getElementById("iCard_Bg").src = "questionMark.png";
 	let tmp = document.getElementById("iCard_Where");
@@ -192,6 +193,7 @@ main.onEmptyAreaClick = () => {
 
 
 main.onDeckClick = (what) => {
+	main.goToMainPaneOfRedSection();
 	let cardName = (JSON.parse(what.attributes.userattrib0.textContent))[0];
 	let cardUpgrade = (JSON.parse(what.attributes.userattrib0.textContent))[1];
 	main.selectedCard = ["d", what, cardName, cardUpgrade];
@@ -215,7 +217,7 @@ main.onDeckClick = (what) => {
 		if (event.target===document.getElementById("ugdgValuePh")){
 			document.getElementById("ugdgValuePh").focus();
 		} else{
-			alert(123);
+			main.goToMainNextPaneOfRedSection();
 		}
 	}
 	// document.getElementById("action4Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 0); };
@@ -226,6 +228,7 @@ main.onDeckClick = (what) => {
 
 
 main.onPredictClick = (idx) => {
+	main.goToMainPaneOfRedSection();
 	let what = document.getElementById("midSection_A").children[idx];
 	if (what.children[0].attributes.src.textContent === "questionMark.png") {
 		main.selectedCard = ["p", what, null, null];
@@ -259,6 +262,7 @@ main.onPredictClick = (idx) => {
 }
 
 main.onLibClick = (data) => {
+	main.goToMainPaneOfRedSection();
 	main.selectedCard = ["l", undefined, data[0], data[1]];
 	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
 	tmp = document.getElementById("iCard_Where");
@@ -468,8 +472,12 @@ main.resetPredictData=()=>{
 }
 
 main.goToMainPaneOfRedSection=()=>{
-	document.getElementById("iCard_NextPane").hidden=true;
+	document.getElementById("iCard_NextPane").style.display="none";
 	document.getElementById("iCard_Pane").hidden=false;
+}
+main.goToMainNextPaneOfRedSection=()=>{
+	document.getElementById("iCard_Pane").hidden=true;
+	document.getElementById("iCard_NextPane").style.display="inherit";
 }
 
 rendererPreload.getcardLibPromise.then((data) => {
