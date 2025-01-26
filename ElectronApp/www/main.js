@@ -480,6 +480,21 @@ main.goToMainNextPaneOfRedSection=()=>{
 	document.getElementById("iCard_NextPane").style.display="inherit";
 }
 
+main.acceptUgValue=()=>{
+    let tmp1=document.getElementById("iCard_NextPane_ugField");
+    tmp1.setCustomValidity("");
+    if (Boolean(tmp1.value.match("^[0-9]+$"))) {
+        if (tmp1.checkValidity()) {
+			alert(123);
+		} else {
+			tmp1.reportValidity();	
+		}
+    } else {
+        tmp1.setCustomValidity("Value must contains only letters of number");
+		tmp1.reportValidity();
+    }
+}
+
 rendererPreload.getcardLibPromise.then((data) => {
 	main.cardList = data;
 	let tmp3 = '';
