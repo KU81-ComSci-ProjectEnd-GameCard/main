@@ -1,5 +1,4 @@
 /* Reorder Preference */
-/* -) more top for most outer, the more top for ordering of element */
 /* -) tagname>class>id */
 /* -) .general is most top of any thing */
 /* -) for :<*> must put next to the same target */
@@ -168,6 +167,21 @@ img {
   font-weight: bold;
 }
 
+.iCard_NextPane_div {
+  flex: 15;
+    /* EXPLAIN: default for justify-self for each items in ctn*/
+  /* justify-items: start; */
+  /* EXPLAIN: how each items align in aspect of same axis of item's line in ctn*/
+  /* justify-self: start; */
+  /* EXPLAIN: MAY FOR FLEX-ONLY: how item align in aspect of same axis of item's line in ctn*/
+  /* justify-content: start; */
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-item but cross-axis of the line */
+  align-items: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-self but cross-axis of the line */
+  align-self: start;
+  /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
+  align-content: start;
+}
 
 .lCard {
   width: 12.5vmin;
@@ -182,7 +196,6 @@ img {
   font-weight: bold;
   font-size: xx-large;
 }
-
 
 .overlayScreen {
   visibility: hidden;
@@ -373,21 +386,6 @@ img {
   flex: 1;
 }
 
-#iCard_NextPane_div {
-  flex: 15;
-    /* EXPLAIN: default for justify-self for each items in ctn*/
-  /* justify-items: start; */
-  /* EXPLAIN: how each items align in aspect of same axis of item's line in ctn*/
-  /* justify-self: start; */
-  /* EXPLAIN: MAY FOR FLEX-ONLY: how item align in aspect of same axis of item's line in ctn*/
-  /* justify-content: start; */
-  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-item but cross-axis of the line */
-  align-items: start;
-  /* EXPLAIN: MAY FOR FLEX-ONLY: same as justify-self but cross-axis of the line */
-  align-self: start;
-  /* EXPLAIN: MAY FOR FLEX-ONLY: alike align-items but about extra space unsed, see docs */
-  align-content: start;
-}
 
 /* mirrror attrib sync from/to #iCard_NextPane, except exception mentioned in  here and there */
 #iCard_Pane {

@@ -62,11 +62,17 @@
             <img id="iCard_Bg" class="general " src="questionMark.png"></img>
           </div>
           <div id="iCard_NextPane" class="general container" >
-            <button id="iCard_NextPane_btn" class="general addDefMarginBottom" onclick="main.goToMainPaneOfRedSection()">🔙 Go Back</button>
-            <div id="iCard_NextPane_div" class="general">
+            <button id="iCard_NextPane_btn" class="general addDefMarginBottom" onclick="main.goToMainPaneOfRedSection()">🔙 Go Back / Cancel</button>
+            <!-- any section adding below inside parent , must reg-ed to main.goToMainNextPaneOfRedSection  -->
+            <div id="iCard_NextPane_ugAdjust_div" hidden class="general iCard_NextPane_div">
               <p class="general  textnegate  ignoreDefExtendSize ExtendH setTextAlignLeft settextLargerSet1 ">Put your upgrade count number:</p>
-              <input id="iCard_NextPane_ugField" class="general ignoreDefExtendSize ExtendH"  type="number" min="0" max="0" step="1" value="0">
+              <input id="iCard_NextPane_ugAdjust_ugField" class="general ignoreDefExtendSize ExtendH"  type="number" min="0" max="0" step="1" value="0">
               <button class="general ignoreDefExtendSize ExtendH" onclick="main.acceptUgValue()">✅ Confirm</button>
+            </div>
+            <div id="iCard_NextPane_replaceCard_div" hidden class="general iCard_NextPane_div">
+              <p class="general  textnegate  ignoreDefExtendSize ExtendH setTextAlignLeft settextLargerSet1 ">Select card from the library...</p>
+              <button id="iCard_NextPane_replaceCard_wiki_btn" class="general ignoreDefExtendSize ExtendH" hidden onclick="main.actionBtn.goToWiki(main.selectedCardInSubMode[2])">📖 Goto Card's Wiki URL</button>
+              <button id="iCard_NextPane_replaceCard_confirm_btn" class="general ignoreDefExtendSize ExtendH" hidden onclick="main.acceptInplaceCard()">✅ Confirm</button>
             </div>
           </div>
           <div id="iCard_Pane" class="general">

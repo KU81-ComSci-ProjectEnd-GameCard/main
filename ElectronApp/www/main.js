@@ -7,6 +7,9 @@ main.allowedUpgrade = undefined;
 main.LoadedCardAmount = 0;
 main.toLoadCardAmount = 0;
 main.inShowPredictData=false;
+main.libCardInInplaceMode=false;
+main.selectedCardInSubMode=undefined;
+main.origImgShown=undefined;
 
 main.cardDisplayNameMap = {
 	"All Out Attack": "All-Out Attack",
@@ -148,6 +151,7 @@ main.predict = () => {
 
 
 main.clearDeck = () => {
+	main.libCardInInplaceMode=false;
 	if (main.selectedCard !== null && main.selectedCard[0] === "d") {
 		main.onEmptyAreaClick();
 	}
@@ -193,6 +197,7 @@ main.onEmptyAreaClick = () => {
 
 
 main.onDeckClick = (what) => {
+	main.libCardInInplaceMode=false;
 	main.goToMainPaneOfRedSection();
 	let cardName = (JSON.parse(what.attributes.userattrib0.textContent))[0];
 	let cardUpgrade = (JSON.parse(what.attributes.userattrib0.textContent))[1];
@@ -215,11 +220,16 @@ main.onDeckClick = (what) => {
 	document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
 	document.getElementById("action2Btn").onclick = () => { main.actionBtn.removeFromDeck(main.selectedCard[1]); };
 	document.getElementById("action3Btn").onclick = (event) => {
-		document.getElementById("iCard_NextPane_ugField").max=main.cardList[cardName];
-		document.getElementById("iCard_NextPane_ugField").value=cardUpgrade;
-		main.goToMainNextPaneOfRedSection();
-	}
-	// document.getElementById("action4Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 0); };
+		document.getElementById("iCard_NextPane_ugAdjust_ugField").max=main.cardList[cardName];
+		document.getElementById("iCard_NextPane_ugAdjust_ugField").value=cardUpgrade;
+		main.goToMainNextPaneOfRedSection("ugAdjust");
+	};
+	document.getElementById("action4Btn").onclick = (event) => {
+		main.libCardInInplaceMode=true;
+		document.getElementById("iCard_NextPane_replaceCard_wiki_btn").hidden=true;
+		document.getElementById("iCard_NextPane_replaceCard_confirm_btn").hidden=true;
+		main.goToMainNextPaneOfRedSection("replaceCard");
+	};
 	// document.getElementById("action5Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 1); };
 	// document.getElementById("action6Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 2); };
 	return;
@@ -227,6 +237,7 @@ main.onDeckClick = (what) => {
 
 
 main.onPredictClick = (idx) => {
+	main.libCardInInplaceMode=false;
 	main.goToMainPaneOfRedSection();
 	let what = document.getElementById("midSection_A").children[idx];
 	if (what.children[0].attributes.src.textContent === "questionMark.png") {
@@ -260,29 +271,38 @@ main.onPredictClick = (idx) => {
 	return;
 }
 
-main.onLibClick = (data) => {
-	main.goToMainPaneOfRedSection();
-	main.selectedCard = ["l", undefined, data[0], data[1]];
-	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
-	tmp = document.getElementById("iCard_Where");
-	tmp.innerText = "(Selected From Library)";
-	document.getElementById("action1Btn_Text").innerHTML = "📖 Goto Card's Wiki URL";
-	document.getElementById("action2Btn_Text").innerHTML = "💾 Put to deck";
-	document.getElementById("action3Btn_Text").innerHTML = "🏆 Set to 1st predict card placeholder";
-	document.getElementById("action4Btn_Text").innerHTML = "🏆 Set to 2nd predict card placeholder";
-	document.getElementById("action5Btn_Text").innerHTML = "🏆 Set to 3rd predict card placeholder";
-	document.getElementById("action1Btn").hidden = false;
-	document.getElementById("action2Btn").hidden = false;
-	document.getElementById("action3Btn").hidden = false;
-	document.getElementById("action4Btn").hidden = false;
-	document.getElementById("action5Btn").hidden = false;
-	document.getElementById("action6Btn").hidden = true;
-	document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
-	document.getElementById("action2Btn").onclick = () => { main.actionBtn.putCard2Deck(data); };
-	document.getElementById("action3Btn").onclick = () => { main.actionBtn.putCard2Predict(data, 0); };
-	document.getElementById("action4Btn").onclick = () => { main.actionBtn.putCard2Predict(data, 1); };
-	document.getElementById("action5Btn").onclick = () => { main.actionBtn.putCard2Predict(data, 2); };
-	return;
+main.onLibClick = (element) => {
+	let data=main.transformThatImgTo2CardAttrib(element);
+	if (!main.libCardInInplaceMode) {
+		main.goToMainPaneOfRedSection();
+		main.selectedCard = ["l", element, data[0], data[1]];
+		document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
+		tmp = document.getElementById("iCard_Where");
+		tmp.innerText = "(Selected From Library)";
+		document.getElementById("action1Btn_Text").innerHTML = "📖 Goto Card's Wiki URL";
+		document.getElementById("action2Btn_Text").innerHTML = "💾 Put to deck";
+		document.getElementById("action3Btn_Text").innerHTML = "🏆 Set to 1st predict card placeholder";
+		document.getElementById("action4Btn_Text").innerHTML = "🏆 Set to 2nd predict card placeholder";
+		document.getElementById("action5Btn_Text").innerHTML = "🏆 Set to 3rd predict card placeholder";
+		document.getElementById("action1Btn").hidden = false;
+		document.getElementById("action2Btn").hidden = false;
+		document.getElementById("action3Btn").hidden = false;
+		document.getElementById("action4Btn").hidden = false;
+		document.getElementById("action5Btn").hidden = false;
+		document.getElementById("action6Btn").hidden = true;
+		document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
+		document.getElementById("action2Btn").onclick = () => { main.actionBtn.putCard2Deck(data); };
+		document.getElementById("action3Btn").onclick = () => { main.actionBtn.putCard2Predict(data, 0); };
+		document.getElementById("action4Btn").onclick = () => { main.actionBtn.putCard2Predict(data, 1); };
+		document.getElementById("action5Btn").onclick = () => { main.actionBtn.putCard2Predict(data, 2); };
+		return;
+	} else {
+		main.selectedCardInSubMode = ["l", element, data[0], data[1]];
+		main.origImgShown=document.getElementById("iCard_Bg").src;
+		document.getElementById("iCard_NextPane_replaceCard_wiki_btn").hidden=false;
+		document.getElementById("iCard_NextPane_replaceCard_confirm_btn").hidden=false;
+		document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName(data) + ".png";
+	}
 }
 
 main.actionBtn.goToWiki = (name) => {
@@ -491,16 +511,25 @@ main.resetPredictData=()=>{
 }
 
 main.goToMainPaneOfRedSection=()=>{
+	main.libCardInInplaceMode=false;
+	if (main.origImgShown) {
+		document.getElementById("iCard_Bg").src = main.origImgShown;
+		main.origImgShown=undefined;
+	}
 	document.getElementById("iCard_NextPane").style.display="none";
 	document.getElementById("iCard_Pane").hidden=false;
 }
-main.goToMainNextPaneOfRedSection=()=>{
+main.goToMainNextPaneOfRedSection=(whatSection)=>{
+	let sectionHeader= ["iCard_NextPane_","_div"];
+	document.getElementById(sectionHeader[0]+"ugAdjust"+sectionHeader[1]).hidden=true;
+	document.getElementById(sectionHeader[0]+"replaceCard"+sectionHeader[1]).hidden=true;
+	document.getElementById(sectionHeader[0]+whatSection+sectionHeader[1]).hidden=false;
 	document.getElementById("iCard_Pane").hidden=true;
 	document.getElementById("iCard_NextPane").style.display="inherit";
 }
 
 main.acceptUgValue=()=>{
-    let tmp1=document.getElementById("iCard_NextPane_ugField");
+    let tmp1=document.getElementById("iCard_NextPane_ugAdjust_ugField");
     tmp1.setCustomValidity("");
     if (Boolean(tmp1.value.match("^[0-9]+$"))) {
         if (tmp1.checkValidity()) {
@@ -513,6 +542,12 @@ main.acceptUgValue=()=>{
         tmp1.setCustomValidity("Value must contains only letters of number");
 		tmp1.reportValidity();
     }
+}
+
+main.acceptInplaceCard=()=>{
+	let tmp = [ main.selectedCardInSubMode[2],main.selectedCardInSubMode[3] ] ;
+	main.inplaceCardEdit_GivenElement(tmp,main.selectedCard[1]);
+	main.onDeckClick(main.selectedCard[1]);
 }
 
 rendererPreload.getcardLibPromise.then((data) => {
@@ -528,7 +563,7 @@ rendererPreload.getcardLibPromise.then((data) => {
 			let tmp1 = undefined; let tmp2 = undefined;
 			if (tmpi === 0) { tmp1 = tmpe; } else { tmp1 = tmpe + "+" + tmpi }
 			tmp2 = new Image();
-			tmp2.classList.add("general"); tmp2.classList.add("lCard"); tmp2.classList.add("ignoreDefExtendSize"); tmp2.classList.add("addDefMarginBottom"); tmp2.classList.add("addDefMarginRight"); tmp2.src = "./cardImgs/" + tmp1 + ".png"; tmp2.onclick = (event) => { main.onLibClick(main.transformThatImgTo2CardAttrib(event.srcElement)); };
+			tmp2.classList.add("general"); tmp2.classList.add("lCard"); tmp2.classList.add("ignoreDefExtendSize"); tmp2.classList.add("addDefMarginBottom"); tmp2.classList.add("addDefMarginRight"); tmp2.src = "./cardImgs/" + tmp1 + ".png"; tmp2.onclick = (event) => { main.onLibClick((event.srcElement)); };
 			tmp2.onload = () => {
 				if (main.LoadedCardAmount <= main.toLoadCardAmount) {
 					main.LoadedCardAmount += 1;
