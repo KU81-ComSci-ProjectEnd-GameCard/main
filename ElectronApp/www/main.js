@@ -196,6 +196,7 @@ main.onDeckClick = (what) => {
 	main.goToMainPaneOfRedSection();
 	let cardName = (JSON.parse(what.attributes.userattrib0.textContent))[0];
 	let cardUpgrade = (JSON.parse(what.attributes.userattrib0.textContent))[1];
+	console.log(cardUpgrade);
 	main.selectedCard = ["d", what, cardName, cardUpgrade];
 	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName([cardName, cardUpgrade]) + ".png";
 	tmp = document.getElementById("iCard_Where");
@@ -214,11 +215,9 @@ main.onDeckClick = (what) => {
 	document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
 	document.getElementById("action2Btn").onclick = () => { main.actionBtn.removeFromDeck(main.selectedCard[1]); };
 	document.getElementById("action3Btn").onclick = (event) => {
-		if (event.target===document.getElementById("ugdgValuePh")){
-			document.getElementById("ugdgValuePh").focus();
-		} else{
-			main.goToMainNextPaneOfRedSection();
-		}
+		document.getElementById("iCard_NextPane_ugField").max=main.cardList[cardName];
+		document.getElementById("iCard_NextPane_ugField").value=cardUpgrade;
+		main.goToMainNextPaneOfRedSection();
 	}
 	// document.getElementById("action4Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 0); };
 	// document.getElementById("action5Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 1); };
@@ -433,7 +432,8 @@ main.getCardDisplayName = (name) => {
 	return main.cardDisplayNameMap[name] ? main.cardDisplayNameMap[name] : name;
 }
 
-main.actionBtn.putCard2Deck = (data) => {
+
+main.helperDeckCardEdit_Phase1= (data)  => {
 	let cardInternalName = data[0];
 	let cardUg = data[1];
 	let cardCost = main.cardCost[cardInternalName][cardUg];
@@ -442,16 +442,35 @@ main.actionBtn.putCard2Deck = (data) => {
 	if (cardUg > 0) {
 		cardDpUg = " ( + " + cardUg + " )";
 	}
-	// userattrib0=\'["'+cardInternalName+'",'+cardUg+']\'
+	return [cardInternalName,cardDpName,cardUg,cardDpUg,cardCost];
+}
+
+main.helperDeckCardEdit_Phase2= (data,htmle)  => {
+	let tmp1 = htmle;
+	tmp1.setAttribute("userattrib0", JSON.stringify([data[0], data[2]]));
+	tmp1.children[0].innerText = data[4];
+	tmp1.children[1].innerText = data[1] + data[3];
+}
+
+main.actionBtn.putCard2Deck = (data) => {
+	let processedData=main.helperDeckCardEdit_Phase1(data);
 	let tmp = '<div customtype="dCard" hidden  onclick="main.onDeckClick(this)" class="general dCard ignoreDefExtendSize ExtendH addDefBorder addDefMarginBottom  ">\n' +
 		'<div class="general dCardHeadNum   addDefBorder setNegateColorBorder"><p class=" general text"></p></div>\n' +
 		'<div class="general dCardName textnegate  addScrollOverflow_H"></div>\n</div>';
 	document.getElementById("firstSection").insertAdjacentHTML("beforeend", tmp);
 	let tmp1 = document.getElementById("firstSection").children[document.getElementById("firstSection").children.length - 1];
-	tmp1.setAttribute("userattrib0", JSON.stringify([cardInternalName, cardUg]));
-	tmp1.children[0].innerText = cardCost;
-	tmp1.children[1].innerText = cardDpName + cardDpUg;
-}
+	main.helperDeckCardEdit_Phase2(processedData,tmp1);
+};
+
+main.inplaceCardEdit = (twoAttribs,index) => {
+	let targetE = document.getElementById("firstSection").children[index+1];
+	inplaceCardEdit_GivenElement(twoAttribs,targetE);
+};
+
+main.inplaceCardEdit_GivenElement = (twoAttribs,targetE) => {
+	let processedData=main.helperDeckCardEdit_Phase1(twoAttribs);
+	main.helperDeckCardEdit_Phase2(processedData,targetE);
+};
 
 main.actionBtn.putCard2Predict = (data, idx) => {
 	main.resetPredictData();
@@ -485,7 +504,8 @@ main.acceptUgValue=()=>{
     tmp1.setCustomValidity("");
     if (Boolean(tmp1.value.match("^[0-9]+$"))) {
         if (tmp1.checkValidity()) {
-			alert(123);
+			main.inplaceCardEdit_GivenElement([main.selectedCard[2],parseInt(tmp1.value)],main.selectedCard[1]);
+			main.onDeckClick(main.selectedCard[1]);
 		} else {
 			tmp1.reportValidity();	
 		}
