@@ -66,6 +66,7 @@
             <!-- any section adding below inside parent , must reg-ed to main.goToMainNextPaneOfRedSection  -->
             <div id="iCard_NextPane_ugAdjust_div" hidden class="general iCard_NextPane_div">
               <p class="general  textnegate  ignoreDefExtendSize ExtendH setTextAlignLeft settextLargerSet1 ">Put your upgrade count number:</p>
+              <p class="general  textnegate  ignoreDefExtendSize ExtendH setTextAlignRight ">(max=<span id="iCard_NextPane_ugAdjust_maxVal" class="general textnegate ignoreDefExtendSize"></span>)</p>
               <input id="iCard_NextPane_ugAdjust_ugField" class="general ignoreDefExtendSize ExtendH"  type="number" min="0" max="0" step="1" value="0">
               <button class="general ignoreDefExtendSize ExtendH" onclick="main.acceptUgValue()">✅ Confirm</button>
             </div>
@@ -73,6 +74,20 @@
               <p class="general  textnegate  ignoreDefExtendSize ExtendH setTextAlignLeft settextLargerSet1 ">Select card from the library...</p>
               <button id="iCard_NextPane_replaceCard_wiki_btn" class="general ignoreDefExtendSize ExtendH" hidden onclick="main.actionBtn.goToWiki(main.selectedCardInSubMode[2])">📖 Goto Card's Wiki URL</button>
               <button id="iCard_NextPane_replaceCard_confirm_btn" class="general ignoreDefExtendSize ExtendH" hidden onclick="main.acceptInplaceCard()">✅ Confirm</button>
+            </div>
+            <div id="iCard_NextPane_switchOrder_div" hidden class="general iCard_NextPane_div">
+              <p class="general  textnegate  ignoreDefExtendSize ExtendH setTextAlignLeft settextLargerSet1 ">Choose ordering:</p>
+              <p class="general  textnegate  ignoreDefExtendSize ExtendH setTextAlignRight ">(max=<span id="iCard_NextPane_switchOrder_maxVal" class="general textnegate ignoreDefExtendSize"></span>)</p>
+              <input id="iCard_NextPane_switchOrder_ugField" class="general ignoreDefExtendSize ExtendH"  type="number" min="1" step="1" value="1">
+              <button id="iCard_NextPane_switchOrder_confirm_btn0" class="general ignoreDefExtendSize ExtendH" onclick="main.acceptSwitchOrderCard()">✅ Apply</button>
+              <button id="iCard_NextPane_switchOrder_confirm_btn1" class="general ignoreDefExtendSize ExtendH" onclick="main.acceptSwitchOrderCard(-10)">-10 then Apply</button>
+              <button id="iCard_NextPane_switchOrder_confirm_btn2" class="general ignoreDefExtendSize ExtendH" onclick="main.acceptSwitchOrderCard(-5)">-5 then Apply</button>
+              <button id="iCard_NextPane_switchOrder_confirm_btn3" class="general ignoreDefExtendSize ExtendH" onclick="main.acceptSwitchOrderCard(-1)">-1 then Apply</button>
+              <button id="iCard_NextPane_switchOrder_confirm_btn4" class="general ignoreDefExtendSize ExtendH" onclick="main.acceptSwitchOrderCard(1)">+1 then Apply</button>
+              <button id="iCard_NextPane_switchOrder_confirm_btn5" class="general ignoreDefExtendSize ExtendH" onclick="main.acceptSwitchOrderCard(5)">+5 then Apply</button>
+              <button id="iCard_NextPane_switchOrder_confirm_btn6" class="general ignoreDefExtendSize ExtendH" onclick="main.acceptSwitchOrderCard(10)">+10 then Apply</button>
+              <button id="iCard_NextPane_switchOrder_confirm_btn7" class="general ignoreDefExtendSize ExtendH" onclick="main.acceptSwitchOrderCard('-')">Apply at Top</button>
+              <button id="iCard_NextPane_switchOrder_confirm_btn8" class="general ignoreDefExtendSize ExtendH" onclick="main.acceptSwitchOrderCard('+')">Apply at Bottom</button>
             </div>
           </div>
           <div id="iCard_Pane" class="general">

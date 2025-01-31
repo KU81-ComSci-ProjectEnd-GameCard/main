@@ -251,6 +251,11 @@ img {
   text-align: left;
 }
 
+.setTextAlignRight {
+  text-align: right;
+}
+
+
 
 .setTextBold {
   font-weight: bold;

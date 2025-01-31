@@ -220,8 +220,9 @@ main.onDeckClick = (what) => {
 	document.getElementById("action1Btn").onclick = () => { main.actionBtn.goToWiki(main.selectedCard[2]); };
 	document.getElementById("action2Btn").onclick = () => { main.actionBtn.removeFromDeck(main.selectedCard[1]); };
 	document.getElementById("action3Btn").onclick = (event) => {
-		document.getElementById("iCard_NextPane_ugAdjust_ugField").max=main.cardList[cardName];
 		document.getElementById("iCard_NextPane_ugAdjust_ugField").value=cardUpgrade;
+		document.getElementById("iCard_NextPane_ugAdjust_ugField").max=main.cardList[cardName];
+		document.getElementById("iCard_NextPane_ugAdjust_maxVal").textContent=main.cardList[cardName];
 		main.goToMainNextPaneOfRedSection("ugAdjust");
 	};
 	document.getElementById("action4Btn").onclick = (event) => {
@@ -230,7 +231,13 @@ main.onDeckClick = (what) => {
 		document.getElementById("iCard_NextPane_replaceCard_confirm_btn").hidden=true;
 		main.goToMainNextPaneOfRedSection("replaceCard");
 	};
-	// document.getElementById("action5Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 1); };
+	document.getElementById("action5Btn").onclick = () => { 
+		let rawChildOfFS = Array.from(document.getElementById("firstSection").children);
+		document.getElementById("iCard_NextPane_switchOrder_ugField").value=rawChildOfFS.indexOf(main.selectedCard[1]);
+		document.getElementById("iCard_NextPane_switchOrder_ugField").max=rawChildOfFS.length-1;
+		document.getElementById("iCard_NextPane_switchOrder_maxVal").textContent=document.getElementById("iCard_NextPane_switchOrder_ugField").max;
+		main.goToMainNextPaneOfRedSection("switchOrder");
+	 };
 	// document.getElementById("action6Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 2); };
 	return;
 }
@@ -523,6 +530,7 @@ main.goToMainNextPaneOfRedSection=(whatSection)=>{
 	let sectionHeader= ["iCard_NextPane_","_div"];
 	document.getElementById(sectionHeader[0]+"ugAdjust"+sectionHeader[1]).hidden=true;
 	document.getElementById(sectionHeader[0]+"replaceCard"+sectionHeader[1]).hidden=true;
+	document.getElementById(sectionHeader[0]+"switchOrder"+sectionHeader[1]).hidden=true;
 	document.getElementById(sectionHeader[0]+whatSection+sectionHeader[1]).hidden=false;
 	document.getElementById("iCard_Pane").hidden=true;
 	document.getElementById("iCard_NextPane").style.display="inherit";
