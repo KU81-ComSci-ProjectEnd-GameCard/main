@@ -10,6 +10,7 @@ main.inShowPredictData=false;
 main.libCardInInplaceMode=false;
 main.selectedCardInSubMode=undefined;
 main.origImgShown=undefined;
+main.rawChildOfFS_ForSwitchOrder=undefined;
 
 main.cardDisplayNameMap = {
 	"All Out Attack": "All-Out Attack",
@@ -151,7 +152,7 @@ main.predict = () => {
 
 
 main.clearDeck = () => {
-	main.libCardInInplaceMode=false;
+	main.stopInplaceModeOfDeckCard();
 	if (main.selectedCard !== null && main.selectedCard[0] === "d") {
 		main.onEmptyAreaClick();
 	}
@@ -201,7 +202,7 @@ main.onDeckClick = (what) => {
 		main.selectedCard[1].style.filter="";
 	}
 	what.style.filter="drop-shadow(0px 0px 1.5625vmin yellow) contrast(8) invert()";
-	main.libCardInInplaceMode=false;
+	main.stopInplaceModeOfDeckCard();
 	main.goToMainPaneOfRedSection();
 	let cardName = (JSON.parse(what.attributes.userattrib0.textContent))[0];
 	let cardUpgrade = (JSON.parse(what.attributes.userattrib0.textContent))[1];
@@ -236,10 +237,12 @@ main.onDeckClick = (what) => {
 		main.goToMainNextPaneOfRedSection("replaceCard");
 	};
 	document.getElementById("action5Btn").onclick = () => { 
-		let rawChildOfFS = Array.from(document.getElementById("firstSection").children);
-		document.getElementById("iCard_NextPane_switchOrder_ugField").value=rawChildOfFS.indexOf(main.selectedCard[1]);
-		document.getElementById("iCard_NextPane_switchOrder_ugField").max=rawChildOfFS.length-1;
+		main.rawChildOfFS_ForSwitchOrder = Array.from(document.getElementById("firstSection").children);
+		document.getElementById("iCard_NextPane_switchOrder_ugField").value=main.rawChildOfFS_ForSwitchOrder.indexOf(main.selectedCard[1]);
+		document.getElementById("iCard_NextPane_switchOrder_ugField").max=main.rawChildOfFS_ForSwitchOrder.length-1;
 		document.getElementById("iCard_NextPane_switchOrder_maxVal").textContent=document.getElementById("iCard_NextPane_switchOrder_ugField").max;
+		delete main.rawChildOfFS_ForSwitchOrder[ main.rawChildOfFS_ForSwitchOrder.indexOf(main.selectedCard[1]) ];
+		main.rawChildOfFS_ForSwitchOrder=main.rawChildOfFS_ForSwitchOrder.flat();
 		main.goToMainNextPaneOfRedSection("switchOrder");
 	 };
 	// document.getElementById("action6Btn").onclick = () => { main.actionBtn.putCard2Predict([main.selectedCard[2], main.selectedCard[3]], 2); };
@@ -248,7 +251,7 @@ main.onDeckClick = (what) => {
 
 
 main.onPredictClick = (idx) => {
-	main.libCardInInplaceMode=false;
+	main.stopInplaceModeOfDeckCard();
 	main.goToMainPaneOfRedSection();
 	let what = document.getElementById("midSection_A").children[idx];
 	if (main.selectedCard && main.selectedCard[1]) {
@@ -287,8 +290,14 @@ main.onPredictClick = (idx) => {
 }
 
 main.onLibClick = (element) => {
-	if (main.selectedCard && main.selectedCard[1]) {
-		main.selectedCard[1].style.filter="";
+	if (!main.libCardInInplaceMode) {
+		if (main.selectedCard && main.selectedCard[1]) {
+			main.selectedCard[1].style.filter="";
+		}
+	} else {
+		if (main.selectedCardInSubMode && main.selectedCardInSubMode[1]) {
+			main.selectedCardInSubMode[1].style.filter="";
+		}
 	}
 	element.style.filter="drop-shadow(0px 0px 1.5625vmin yellow) contrast(8) invert()";
 	let data=main.transformThatImgTo2CardAttrib(element);
@@ -530,11 +539,7 @@ main.resetPredictData=()=>{
 }
 
 main.goToMainPaneOfRedSection=()=>{
-	main.libCardInInplaceMode=false;
-	// TODO:
-	if (main.selectedCard && main.selectedCard[1]) {
-		
-	}
+	main.stopInplaceModeOfDeckCard();
 	if (main.origImgShown) {
 		document.getElementById("iCard_Bg").src = main.origImgShown;
 		main.origImgShown=undefined;
@@ -574,17 +579,38 @@ main.acceptInplaceCard=()=>{
 	main.onDeckClick(main.selectedCard[1]);
 }
 
+main.stopInplaceModeOfDeckCard=()=>{
+	if (main.selectedCardInSubMode && main.selectedCardInSubMode[1]) {
+		main.selectedCardInSubMode[1].style.filter="";
+	}
+	main.selectedCardInSubMode=undefined;
+	main.libCardInInplaceMode=false;
+}
+
 main.acceptSwitchOrderCard=(mode)=>{
 	if (mode) {
-		// TODO:
+		let tmp1=document.getElementById("iCard_NextPane_switchOrder_ugField");
+		if (mode==="+") {
+			tmp1.value=tmp1.max;
+			main.acceptSwitchOrderCard();
+		} else if (mode==="-") {
+			tmp1.value=tmp1.min;
+			main.acceptSwitchOrderCard();
+		} else {
+			let tmp2=parseInt(tmp1.value)+mode;
+			if (tmp2<tmp1.min) {tmp2=tmp1.min;}
+			else if (tmp2>tmp1.max) {tmp2=tmp1.max;}
+			tmp1.value=tmp2;
+			main.acceptSwitchOrderCard();
+		}
 	} else { 
 		let tmp1=document.getElementById("iCard_NextPane_switchOrder_ugField");
 		tmp1.setCustomValidity("");
 		if (Boolean(tmp1.value.match("^[0-9]+$"))) {
 			if (tmp1.checkValidity()) {
-				// TODO:
-				main.inplaceCardEdit_GivenElement([main.selectedCard[2],parseInt(tmp1.value)],main.selectedCard[1]);
-				main.onDeckClick(main.selectedCard[1]);
+				let setOrder = document.getElementById("iCard_NextPane_switchOrder_ugField").value;
+				let finalDeckCardList= [].concat(main.rawChildOfFS_ForSwitchOrder.slice(0,setOrder),main.selectedCard[1],main.rawChildOfFS_ForSwitchOrder.slice(setOrder));
+				document.getElementById("firstSection").replaceChildren(...finalDeckCardList);
 			} else {
 				tmp1.reportValidity();	
 			}
