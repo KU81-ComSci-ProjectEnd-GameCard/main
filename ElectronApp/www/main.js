@@ -197,6 +197,10 @@ main.onEmptyAreaClick = () => {
 
 
 main.onDeckClick = (what) => {
+	if (main.selectedCard && main.selectedCard[1]) {
+		main.selectedCard[1].style.filter="";
+	}
+	what.style.filter="drop-shadow(0px 0px 1.5625vmin yellow) contrast(8) invert()";
 	main.libCardInInplaceMode=false;
 	main.goToMainPaneOfRedSection();
 	let cardName = (JSON.parse(what.attributes.userattrib0.textContent))[0];
@@ -247,6 +251,10 @@ main.onPredictClick = (idx) => {
 	main.libCardInInplaceMode=false;
 	main.goToMainPaneOfRedSection();
 	let what = document.getElementById("midSection_A").children[idx];
+	if (main.selectedCard && main.selectedCard[1]) {
+		main.selectedCard[1].style.filter="";
+	}
+	what.style.filter="drop-shadow(0px 0px 1.5625vmin yellow) contrast(8) invert()";
 	if (what.children[0].attributes.src.textContent === "questionMark.png") {
 		main.selectedCard = ["p", what, null, null];
 		document.getElementById("iCard_Bg").src = "questionMark.png";
@@ -279,6 +287,10 @@ main.onPredictClick = (idx) => {
 }
 
 main.onLibClick = (element) => {
+	if (main.selectedCard && main.selectedCard[1]) {
+		main.selectedCard[1].style.filter="";
+	}
+	element.style.filter="drop-shadow(0px 0px 1.5625vmin yellow) contrast(8) invert()";
 	let data=main.transformThatImgTo2CardAttrib(element);
 	if (!main.libCardInInplaceMode) {
 		main.goToMainPaneOfRedSection();
@@ -519,6 +531,10 @@ main.resetPredictData=()=>{
 
 main.goToMainPaneOfRedSection=()=>{
 	main.libCardInInplaceMode=false;
+	// TODO:
+	if (main.selectedCard && main.selectedCard[1]) {
+		
+	}
 	if (main.origImgShown) {
 		document.getElementById("iCard_Bg").src = main.origImgShown;
 		main.origImgShown=undefined;
@@ -556,6 +572,27 @@ main.acceptInplaceCard=()=>{
 	let tmp = [ main.selectedCardInSubMode[2],main.selectedCardInSubMode[3] ] ;
 	main.inplaceCardEdit_GivenElement(tmp,main.selectedCard[1]);
 	main.onDeckClick(main.selectedCard[1]);
+}
+
+main.acceptSwitchOrderCard=(mode)=>{
+	if (mode) {
+		// TODO:
+	} else { 
+		let tmp1=document.getElementById("iCard_NextPane_switchOrder_ugField");
+		tmp1.setCustomValidity("");
+		if (Boolean(tmp1.value.match("^[0-9]+$"))) {
+			if (tmp1.checkValidity()) {
+				// TODO:
+				main.inplaceCardEdit_GivenElement([main.selectedCard[2],parseInt(tmp1.value)],main.selectedCard[1]);
+				main.onDeckClick(main.selectedCard[1]);
+			} else {
+				tmp1.reportValidity();	
+			}
+		} else {
+			tmp1.setCustomValidity("Value must contains only letters of number");
+			tmp1.reportValidity();
+		}
+	}
 }
 
 rendererPreload.getcardLibPromise.then((data) => {
