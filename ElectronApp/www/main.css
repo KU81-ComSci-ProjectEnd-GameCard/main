@@ -197,6 +197,14 @@ img {
   font-size: xx-large;
 }
 
+.lCard_FS_CbLeftPane {
+  flex: 1;
+}
+
+.lCard_FS_CbRightPane {
+  flex: 7;
+}
+
 .overlayScreen {
   visibility: hidden;
   position: fixed;
@@ -455,13 +463,7 @@ img {
 #lCard_FilterSetting_Note2{
   margin-bottom: 1.5625vmin;
 }
-#lCard_FS_doSS {
-  flex: 1;
-}
 
-#lCard_FS_doSS_text {
-  flex: 7;
-}
 #lCard_list {
   /* EXPLAIN: For horizontal align of text */
   text-align: left;

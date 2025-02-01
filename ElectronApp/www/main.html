@@ -133,14 +133,20 @@
             <div class="general ignoreDefExtendSize ExtendH"></div>
             <h1 class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">General</h1>
             <div class="general container ignoreDefExtendSize ExtendH">
-              <input id="lCard_FS_doSS" class="general  ignoreDefExtendSize ExtendH" type="checkbox"
+              <input id="lCard_FS_doSS" class="general  ignoreDefExtendSize ExtendH lCard_FS_CbLeftPane" type="checkbox"
                 onchange="main.doStrictSearch=!main.doStrictSearch">
-              <p id="lCard_FS_doSS_text" class="general  ignoreDefExtendSize ExtendH  textnegate setTextAlignLeft">
+              <p  class="general  ignoreDefExtendSize ExtendH  textnegate setTextAlignLeft lCard_FS_CbRightPane">
                 Strict Search (recommended)</p>
             </div>
             <p class="general  ignoreDefExtendSize textnegate setTextAlignLeft">= appeared cards must contain every
               (instead of any) words you typed</p>
             <h1 id="lCard_FS_shownC" class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">Shown Cost</h1>
+            <div class="general container ignoreDefExtendSize ExtendH">
+              <!-- TODO: not todo but this is sample code -->
+              <input type="checkbox" class="general ignoreDefExtendSize ExtendH lCard_FS_CbLeftPane" attrib="" onchange="main.update__lCard_FS_shownC(this,'0')">
+              <p class="general  ignoreDefExtendSize ExtendH  textnegate setTextAlignLeft lCard_FS_CbRightPane">TEST</p>
+            </div>
+            <!-- TODO -->
             <h1 id="lCard_FS_shownUg" class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">Shown Upgrade Count</h1>
 
           </div>
