@@ -121,11 +121,10 @@ img {
 }
 
 
+/* For FLEX Ctn only */
 .container {
   display: flex;
 }
-
-
 
 
 .dCard {
@@ -169,7 +168,7 @@ img {
 
 .iCard_NextPane_div {
   flex: 15;
-    /* EXPLAIN: default for justify-self for each items in ctn*/
+  /* EXPLAIN: default for justify-self for each items in ctn*/
   /* justify-items: start; */
   /* EXPLAIN: how each items align in aspect of same axis of item's line in ctn*/
   /* justify-self: start; */
@@ -429,7 +428,7 @@ img {
 }
 
 #lCard_SearchPane {
-  flex:1;
+  flex: 1;
   flex-direction: row;
 }
 
@@ -452,15 +451,15 @@ img {
 }
 
 #lCard_SearchBtn {
-  flex:1;
+  flex: 1;
 }
 
 
 #lCard_BelowPane {
-  flex:15;
+  flex: 15;
 }
 
-#lCard_FilterSetting_Note2{
+#lCard_FilterSetting_Note2 {
   margin-bottom: 1.5625vmin;
 }
 
