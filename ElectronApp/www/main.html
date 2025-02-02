@@ -151,17 +151,35 @@
               🙏 Filter by Color/Type/Rarity is comming in next version 🙏</p>
             <div class="general ignoreDefExtendSize ExtendH"></div>
             <h1 class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">General</h1>
+            <button id="lCard_FS_REVERT" class="general ignoreDefExtendSize ExtendH " disabled
+              onclick="main.revertLCardFilter()">
+              <p class="general textBtn">
+                ✅ No any changes to revert
+              </p>
+            </button>
+            <button id="lCard_FS_RESET" class="general ignoreDefExtendSize ExtendH" disabled
+              onclick="main.resetLCardFilter()">
+              <p class="general textBtn">
+                ✅ Current setting is now default
+              </p>
+            </button>
             <div class="general container ignoreDefExtendSize ExtendH">
               <input id="lCard_FS_doSS" class="general  ignoreDefExtendSize ExtendH lCard_FS_CbLeftPane" type="checkbox"
-                onchange="main.doStrictSearch=!main.doStrictSearch">
+                onchange="main.update__lCard_FS_SSmode()">
               <p class="general  ignoreDefExtendSize ExtendH  textnegate setTextAlignLeft lCard_FS_CbRightPane">
                 Strict Search (recommended)</p>
             </div>
             <p class="general  ignoreDefExtendSize textnegate setTextAlignLeft">= appeared cards must contain every
               (instead of any) words you typed</p>
             <h1 id="lCard_FS_shownC" class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">Shown Cost</h1>
+            <!-- TODO -->
+            <div id="lCard_FS_shownC_list" class="general ignoreDefExtendSize ExtendH maxHeightDiv">
+
+            </div>
             <h1 id="lCard_FS_shownUg" class="general textnegate lCardHeader ignoreDefExtendSize ExtendH">Shown Upgrade
               Count</h1>
+            <div id="lCard_FS_shownUg_list" class="general ignoreDefExtendSize ExtendH maxHeightDiv">
+            </div>
           </div>
           <div id="lCard_list" class="general">
           </div>

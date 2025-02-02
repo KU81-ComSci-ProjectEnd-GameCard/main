@@ -11,6 +11,7 @@ main.libCardInInplaceMode=false;
 main.selectedCardInSubMode=undefined;
 main.origImgShown=undefined;
 main.rawChildOfFS_ForSwitchOrder=undefined;
+main.doLcardResearch=false;
 
 main.cardDisplayNameMap = {
 	"All Out Attack": "All-Out Attack",
@@ -427,6 +428,9 @@ main.lCardSearch = () => {
 		tmp3[0].hidden = !tmp3[1];
 	}
 	document.getElementById('body').style.cursor = '';
+	document.getElementById("lCard_list").hidden = false;
+	// TODO: remove after all work done
+	console.log("RS");
 }
 
 main.showLCardFilterSetting = () => {
@@ -434,27 +438,64 @@ main.showLCardFilterSetting = () => {
 		document.getElementById("lCard_FilterSetting").hidden = true;
 		document.getElementById("lCard_SearchBox").hidden = false;
 		document.getElementById("lCard_SearchBtn").innerText = "⚙️ Filter";
-		main.lCardSearch();
-		document.getElementById("lCard_list").hidden = false;
-
+		if (main.doLcardResearch) {
+			// document.getElementById("lCard_list").hidden = false;
+			// is existed in this func
+			main.lCardSearch();
+		} else {document.getElementById("lCard_list").hidden = false;}
 	}
 	else {
-		document.getElementById("lCard_FS_doSS").checked = main.doStrictSearch;
 		document.getElementById("lCard_list").hidden = true;
 		document.getElementById("lCard_FilterSetting").hidden = false;
 		document.getElementById("lCard_SearchBox").hidden = true;
-		document.getElementById("lCard_SearchBtn").innerText = "➖ Collapse and Re-Search";
+		document.getElementById("lCard_SearchBtn").innerText = "➖ Collapse";
 	}
 
 }
 
+//  TODO:
 main.resetLCardFilter = () => {
-	main.doStrictSearch = true;
-	main.allowedCost = undefined;
-	main.allowedUpgrade = undefined;
-	main.showLCardFilterSetting();
+	main.doStrictSearch=true;
+	main.invupdate__lCard_FS_SSmode();
+	// ---
+	main.allowedCost = {}
+	for (let tmpe of Object.keys(main.allowedCost)) {
+		main.allowedCost[tmpe] = false;
+		main.invupdate__lCard_FS_shown(0,)
+	}
+	main.allowedUpgrade = {}
+	for (let tmpe of Object.keys(main.allowedUpgrade)) {
+		main.allowedUpgrade[tmpe] = false;
+		main.invupdate__lCard_FS_shown(1,)
+	}
 }
 
+main.update__lCard_FS_SSmode=() => {
+	main.doStrictSearch=document.getElementById("lCard_FS_doSS").checked;
+}
+
+main.invupdate__lCard_FS_SSmode=() => {
+	document.getElementById("lCard_FS_doSS").checked=main.doStrictSearch;
+}
+
+// param:mode: 0:cost 1:ug
+// TODO: QUICK: I put val into id of element, so check for further action
+main.update__lCard_FS_shown= (mode,element,val) => {
+	if (mode===0) {
+		main.allowedCost[val]=element.checked;
+	} else {
+		main.allowedUpgrade[val]=element.checked;
+	}
+}
+
+// param:mode: same as non-inv
+main.invupdate__lCard_FS_shown= (mode,element,val) => {
+	if (mode===0) {
+		element.checked=main.allowedCost[val];
+	} else {
+		element.checked=main.allowedUpgrade[val];
+	}
+}
 
 main.getUniqueCostVal = () => {
 	let uniqueCostVal = new Set();
@@ -646,6 +687,8 @@ rendererPreload.getcardLibPromise.then((data) => {
 			document.getElementById("lCard_list").appendChild(tmp2);
 		}
 	}
+	// [lCard Filter Search Zone START]
+	main.invupdate__lCard_FS_SSmode();
 	main.allowedCost = {}
 	for (let tmpe of main.getUniqueCostVal()) {
 		main.allowedCost[tmpe] = false;
@@ -654,8 +697,53 @@ rendererPreload.getcardLibPromise.then((data) => {
 	for (let tmpe of main.getUniqueUgVal()) {
 		main.allowedUpgrade[tmpe] = false;
 	}
-	// setTimeout(
-	// 	()=>{document.getElementById('overlayScreenInit').style.visibility = 'hidden';},
-	// 	1000
-	// );
+	// TODO: generate filter search of shownC here
+	let tmp_elements=Object.keys(main.allowedCost).sort();
+	let tmp_len = tmp_elements.length;
+	let tmp_bigdivlen = Math.ceil(tmp_len/3);
+	let tmp_bigdivpointer = 0;
+	let tmp_smalldivpointer = 0;
+	let mode="C";
+	let tmp_listE =document.getElementById("lCard_FS_shown"+mode+"_list");
+	for (let tmpi = 0; tmpi < tmp_bigdivlen; tmpi++) {
+		tmp_listE.insertAdjacentHTML("beforeend",'<div class="general container setContainerH" ></div>');
+	}
+	let tmp_listE_Child = tmp_listE.children;
+	tmp_elements.forEach(element => {
+		if (tmp_smalldivpointer>=3) {
+			tmp_bigdivpointer+=1;
+			tmp_smalldivpointer=0;
+		}
+		let val=element;
+		let val2=val;
+		if (val===".") {
+			val2="Non-marked-as-X and No Cost";
+		} else if (val==="X") {
+			val2="Marked as X";
+		}
+		tmp_listE_Child[tmp_bigdivpointer].insertAdjacentHTML("beforeend",'<div class="general container ignoreDefExtendSize ExtendH addMarginForCB"><input id="lCard_FS_shown'+mode+'_'+val+'" type="checkbox" class="general ignoreDefExtendSize ExtendH lCard_FS_CbLeftPane" attrib="" onchange="main.update__lCard_FS_shown(0,\''+val+'\')"><p class="general  ignoreDefExtendSize ExtendH  textnegate setTextAlignLeft lCard_FS_CbRightPane">'+val2+'</p></div>');
+		tmp_smalldivpointer+=1;
+	});
+	// TODO: generate filter search of shownUg here
+	tmp_elements=Object.keys(main.allowedUpgrade).sort();
+	tmp_len = tmp_elements.length;
+	tmp_bigdivlen = Math.ceil(tmp_len/3);
+	tmp_bigdivpointer = 0;
+	tmp_smalldivpointer = 0;
+	mode="Ug";
+	tmp_listE =document.getElementById("lCard_FS_shown"+mode+"_list");
+	for (let tmpi = 0; tmpi < tmp_bigdivlen; tmpi++) {
+		tmp_listE.insertAdjacentHTML("beforeend",'<div class="general container setContainerH" ></div>');
+	}
+	tmp_listE_Child = tmp_listE.children;
+	tmp_elements.forEach(element => {
+		if (tmp_smalldivpointer>=3) {
+			tmp_bigdivpointer+=1;
+			tmp_smalldivpointer=0;
+		}
+		let val=element;
+		tmp_listE_Child[tmp_bigdivpointer].insertAdjacentHTML("beforeend",'<div class="general container ignoreDefExtendSize ExtendH addMarginForCB"><input id="lCard_FS_shown'+mode+'_'+val+'" type="checkbox" class="general ignoreDefExtendSize ExtendH lCard_FS_CbLeftPane" attrib="" onchange="main.update__lCard_FS_shown(1,'+val+')"><p class="general  ignoreDefExtendSize ExtendH  textnegate setTextAlignLeft lCard_FS_CbRightPane">'+val+'</p></div>');
+		tmp_smalldivpointer+=1;
+	});
+	// <lCard Filter Search Zone END>
 })

@@ -88,7 +88,9 @@ img {
   padding: 0.390625vmin;
 }
 
-
+.addMarginForCB {
+  margin: 0.09765625vmin;
+}
 
 .addScrollOverflow {
   overflow: auto;
@@ -201,7 +203,12 @@ img {
 }
 
 .lCard_FS_CbRightPane {
+  margin-left: 0.09765625vmin;
   flex: 7;
+}
+
+.maxHeightDiv {
+  max-height: 75vh;
 }
 
 .overlayScreen {
@@ -248,6 +255,10 @@ img {
 .pCard_NameReal {
   font-weight: bold;
   text-wrap: nowrap;
+}
+
+.setContainerH {
+  flex-direction: row;
 }
 
 .setNegateColorBorder {
