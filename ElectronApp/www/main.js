@@ -388,8 +388,11 @@ main.transform2CardAttrib2ImgName = (data) => {
 
 main.lCardSearch = () => {
 	document.getElementById('body').style.cursor = 'wait';
+	let tmp_anyOfAllowCost=Object.values(main.allowedCost).some(element=>{return element;});
+	let tmp_anyOfAllowUg=Object.values(main.allowedUpgrade).some(element=>{return element;});
 	let tmp = document.getElementById("lCard_SearchBox").value.toLowerCase();
-	if (tmp === '') {
+	if (tmp === '' && !tmp_anyOfAllowCost && !tmp_anyOfAllowUg) {
+		console.log("ALL");
 		for (let tmpe of document.getElementById("lCard_list").children) {
 			tmpe.hidden = false;
 		}
@@ -416,36 +419,47 @@ main.lCardSearch = () => {
 				let tmp4 =true;
 				let tmp6=undefined;
 				// [FS:Cost Zone]
-				if (Object.values(main.allowedCost).some(element=>{return element;})) {
+				if (tmp_anyOfAllowCost) {
 					tmp6=Object.entries(main.allowedCost).filter(element=>{return element[1];}).map(element=>{return element[0];});
 					if (tmp6.includes(tmp8)) {} else {tmp4=false;}
 				}
 				// [FS:Ug Zone]
-				if (tmp4 && Object.values(main.allowedUpgrade).some(element=>{return element;})) {
-					tmp6=Object.entries(main.allowedUpgrade).filter(element=>{return element[1];}).map(element=>{return element[0];});
+				if (tmp4 && tmp_anyOfAllowUg) {
+					tmp6=Object.entries(main.allowedUpgrade).filter(element=>{return element[1];}).map(element=>{return parseInt(element[0]);});
 					if (tmp6.includes(tmp7)) {} else {tmp4=false;}
+					console.log("START");
+					console.log(tmp7);
+					console.log(tmp6);
 				}
 				// [String Search Zone + Skip process when above condition failed]
 				if (tmp4) {
+					// From now tmp4 would switch meaning, =false mean to show
 					if (!main.doStrictSearch) {
-						tmpe.hidden = true;
+						tmp4 = true;
 						for (let tmpe2 of tmp) {
 							if (tmp2.includes(tmpe2)) {
-								tmpe.hidden = false;
+								tmp4 = false;
 								break;
 							}
 						}
 					} else {
-						tmpe.hidden = false;
-						for (let tmpe2 of tmp) {
-							if (!tmp2.includes(tmpe2)) {
-								tmpe.hidden = true;
-								break;
+						// if splited str have len of 0
+						if (tmp.length!==0) {
+							tmp4 = false;
+							for (let tmpe2 of tmp) {
+								if (!tmp2.includes(tmpe2)) {
+									tmp4 = true;
+									break;
+								}
 							}
-						}
-
+						} else {tmp4=true;}
 					}
-					if (!tmpe.hidden) { tmp3[1] = true; }
+					if (!tmp4) { 
+						tmp3[1] = true;
+						tmpe.hidden=false;
+					} else {
+						tmpe.hidden=true;
+					}
 				} else {
 					tmpe.hidden=true;
 				}
