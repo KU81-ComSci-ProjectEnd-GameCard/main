@@ -30,7 +30,7 @@ main.createWindow = () => {
       sandbox: true,
       defaultEncoding: "uft-8",
       defaultMonospaceFontSize: 16,
-      // devTools: false,
+      devTools: false,
       disableHtmlFullscreenWindowResize: true,
       scrollBounce: true,
     },
