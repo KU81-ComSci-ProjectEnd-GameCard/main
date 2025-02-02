@@ -98,7 +98,6 @@ main.predict = () => {
 		document.getElementById('overlayScreenInit').style.visibility = '';
 		let tmp = rendererPreload.doPredict(main.getDeckStr());
 		tmp.then((data) => {
-			console.log(data);
 			let l_allcardlen = data.split(",").length;
 			let idxPC1 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard1").children[0]));
 			let idxPC2 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard2").children[0]));
