@@ -16,7 +16,6 @@ main.origImgShown = undefined;
 main.rawChildOfFS_ForSwitchOrder = undefined;
 main.doLcardResearch = false;
 
-
 main.cardDisplayNameMap = {
 	"All Out Attack": "All-Out Attack",
 	"AscendersBane": "Ascender's Bane",
@@ -41,21 +40,47 @@ main.cardCost = {
 	'Neutralize': ['0', '0'], 'Shockwave': ['2', '2'], 'Second Wind': ['1', '1'], 'Inflame': ['1', '1'], 'Strike_R': ['1', '1'], 'Metallicize': ['1', '1'], 'Sucker Punch': ['1', '1'], 'Perfected Strike': ['2', '2'], 'Pommel Strike': ['1', '1'], 'Parasite': ['.', 'X'], 'Apotheosis': ['2', 'X'], 'Corpse Explosion': ['2', '2'], 'Rage': ['0', '0'], 'Envenom': ['2', 'X'], 'Well Laid Plans': ['1', '1'], 'Backstab': ['0', '0'], 'Blood for Blood': ['4', 'X'], 'Prepared': ['0', '0'], 'Caltrops': ['1', '1'], 'Mayhem': ['2', 'X'], 'Defend_R': ['1', '1'], 'Underhanded Strike': ['2', '2'], 'Infinite Blades': ['1', '1'], 'Armaments': ['1', '1'], 'Bloodletting': ['0', '0'], 'Burst': ['1', '1'], 'Flying Knee': ['1', '1'], 'Shrug It Off': ['1', '1'], 'Doppelganger': ['X', 'X'], 'Carnage': ['2', '2'], 'Hemokinesis': ['1', '1'], 'Rampage': ['1', '1'], 'Calculated Gamble': ['0', '0'], 'A Thousand Cuts': ['2', '2'], 'J.A.X.': ['0', '0'], 'Spot Weakness': ['1', '1'], 'Writhe': ['.', 'X'], 'Burning Pact': ['1', '1'], 'Secret Weapon': ['0', '0'], 'Evolve': ['1', '1'], 'Dramatic Entrance': ['0', '0'], 'Pain': ['.', 'X'], 'Warcry': ['0', '0'], 'True Grit': ['1', '1'], 'Finisher': ['1', '1'], 'Infernal Blade': ['1', 'X'], 'Deflect': ['0', '0'], 'Bludgeon': ['3', '3'], 'Choke': ['2', '2'], 'Regret': ['.', 'X'], 'Searing Blow': ['2', '2'], 'Escape Plan': ['0', '0'], 'Setup': ['1', 'X'], 'Predator': ['2', '2'], 'Flame Barrier': ['2', '2'], 'Catalyst': ['1', '1'], 'Disarm': ['1', '1'], 'Sword Boomerang': ['1', '1'], 'Acrobatics': ['1', '1'], 'Blade Dance': ['1', '1'], 'Expertise': ['1', '1'], 'Panacea': ['0', '0'], 'Thunderclap': ['1', '1'], 'Trip': ['0', '0'], 'The Bomb': ['2', '2'], 'Dropkick': ['1', '1'], 'Power Through': ['1', '1'], 'Whirlwind': ['X', 'X'], 'Concentrate': ['0', '0'], 'Venomology': ['1', 'X'], 'Purity': ['0', '0'], 'Bane': ['1', '1'], 'Clash': ['0', '0'], 'Die Die Die': ['1', '1'], 'Strike_G': ['1', '1'], 'HandOfGreed': ['2', '2'], 'Reaper': ['2', '2'], 'Crippling Poison': ['2', '2'], 'Deep Breath': ['0', '0'], 'Endless Agony': ['0', '0'], 'Flex': ['0', '0'], 'Flash of Steel': ['0', '0'], 'Heavy Blade': ['2', '2'], 'Survivor': ['1', '1'], 'Sentinel': ['1', '1'], 'Double Tap': ['1', '1'], 'AscendersBane': ['.', 'X'], 'Grand Finale': ['0', '0'], 'Slice': ['0', '0'], 'Secret Technique': ['0', '0'], 'Cloak And Dagger': ['1', '1'], 'Blur': ['1', '1'], 'Fire Breathing': ['1', '1'], 'Leg Sweep': ['2', '2'], 'Discovery': ['1', '1'], 'Terror': ['1', 'X'], 'Accuracy': ['1', '1'], 'Violence': ['0', '0'], 'Backflip': ['1', '1'], 'Exhume': ['1', 'X'], 'Storm of Steel': ['1', '1'], 'Flechettes': ['1', '1'], 'All Out Attack': ['1', '1'], 'Battle Trance': ['0', '0'], 'Poisoned Stab': ['1', '1'], 'Deadly Poison': ['1', '1'], 'Fiend Fire': ['2', '2'], 'Defend_G': ['1', '1'], 'PanicButton': ['0', '0'], 'Blind': ['0', '0'], 'Finesse': ['0', '0'], 'Ghostly Armor': ['1', '1'], 'Jack Of All Trades': ['0', '0'], 'Cleave': ['1', '1'], 'Wild Strike': ['1', '1'], 'Tactician': ['.', '.'], 'Iron Wave': ['1', '1'], 'Bullet Time': ['3', 'X'], 'Footwork': ['1', '1'], 'Reflex': ['.', '.'], 'Entrench': ['2', 'X'], 'Feel No Pain': ['1', '1'], 'Injury': ['.', 'X'], 'Dodge and Roll': ['1', '1'], 'Heel Hook': ['1', '1'], 'Metamorphosis': ['2', '2'], 'Rupture': ['1', '1'], 'Wraith Form v2': ['3', '3'], 'Good Instincts': ['0', '0'], 'Barricade': ['3', 'X'], 'Transmutation': ['X', 'X'], 'Decay': ['.', 'X'], 'Demon Form': ['3', '3'], 'Phantasmal Killer': ['1', 'X'], 'Clothesline': ['2', '2'], 'Dagger Throw': ['1', '1'], 'Body Slam': ['1', 'X'], 'Magnetism': ['2', 'X'], 'Panache': ['0', '0'], 'Adrenaline': ['0', '0'], 'Dark Embrace': ['2', 'X'], 'Bite': ['1', '1'], 'Havoc': ['1', 'X'], 'Twin Strike': ['1', '1'], 'Impatience': ['0', '0'], 'Skewer': ['X', 'X'], 'Intimidate': ['0', '0'], 'Juggernaut': ['2', '2'], 'Swift Strike': ['0', '0'], 'Dual Wield': ['1', '1'], 'Clumsy': ['.', 'X'], 'Anger': ['0', '0'], 'Chrysalis': ['2', '2'], 'Corruption': ['3', 'X'], 'Enlightenment': ['0', '0'], 'Immolate': ['2', '2'], 'Madness': ['1', 'X'], 'Master of Strategy': ['0', '0'], 'Offering': ['0', '0'], 'Uppercut': ['2', '2'], 'After Image': ['1', '1'], 'Combust': ['1', '1'], 'Noxious Fumes': ['1', '1'], 'Dark Shackles': ['0', '0'], 'Glass Knife': ['1', '1'], 'Eviscerate': ['3', '3'], 'Bandage Up': ['0', '0'], 'Night Terror': ['3', 'X'], 'Sadistic Nature': ['0', '0'], 'Outmaneuver': ['1', '1'], 'Dagger Spray': ['1', '1'], 'Feed': ['1', '1'], 'Forethought': ['0', '0'], 'Doubt': ['.', 'X'], 'Dash': ['2', '2'], 'Normality': ['.', 'X'], 'Headbutt': ['1', '1'], 'Sever Soul': ['2', '2'], 'Quick Slash': ['1', '1'], 'Pummel': ['1', '1'], 'Malaise': ['X', 'X'], 'Distraction': ['1', 'X'], 'Limit Break': ['1', '1'], 'Bouncing Flask': ['2', '2'], 'PiercingWail': ['1', '1'], 'Mind Blast': ['2', 'X'], 'Necronomicurse': ['.', 'X'], 'Seeing Red': ['1', 'X'], 'Berserk': ['0', '0'], 'Masterful Stab': ['0', '0'], 'Shame': ['X', 'X'], 'Tools of the Trade': ['1', 'X'], 'Bash': ['2', '2'], 'Reckless Charge': ['0', '0'], 'Thinking Ahead': ['0', '0'], 'Brutality': ['0', '0'], 'Unload': ['1', '1'], 'Impervious': ['2', '2']
 }
 
-main.predictHelper1 = (element, mode, percentile) => {
+main.predictHelper1 = (element, mode, percentile, cOrder, allLen) => {
 	if (mode === 1) {
 		element.style.backgroundColor = "rgba(0%,50%,0%,50%)";
-		element.children[1].children[0].innerText = "Predict as 1st (Percentile from all cards: " + main.predictHelper2(percentile) + ")\n" + element.children[1].children[0].innerText;
+		element.children[1].children[0].innerText = "Predict as 1st (Percentile from all cards: " + main.predictHelper2(percentile) + ", " + main.predictHelper3(cOrder, allLen) + ")\n" + element.children[1].children[0].innerText;
 	} else if (mode === 2) {
 		element.style.backgroundColor = "rgba(25%,25%,0%,50%)";
-		element.children[1].children[0].innerText = "Predict as 2nd (Percentile from all cards: " + main.predictHelper2(percentile) + ")\n" + element.children[1].children[0].innerText;
+		element.children[1].children[0].innerText = "Predict as 2nd (Percentile from all cards: " + main.predictHelper2(percentile) + ", " + main.predictHelper3(cOrder, allLen) + ")\n" + element.children[1].children[0].innerText;
 	} else {
 		element.style.backgroundColor = "rgba(50%,0%,0%,50%)";
-		element.children[1].children[0].innerText = "Predict as 3rd (Percentile from all cards: " + main.predictHelper2(percentile) + ")\n" + element.children[1].children[0].innerText;
+		element.children[1].children[0].innerText = "Predict as 3rd (Percentile from all cards: " + main.predictHelper2(percentile) + ", " + main.predictHelper3(cOrder, allLen) + ")\n" + element.children[1].children[0].innerText;
 	}
 }
 
 main.predictHelper2 = (percentile) => {
 	return percentile.toString().split(".")[0] + (percentile.toString().split(".")[1] ? "." + percentile.toString().split(".")[1].substring(0, 1) : "") + "%"
+}
+
+main.predictHelper3 = (cOrder, allLen) => {
+	let l_suffix = "th";
+	if (cOrder <= 20) {
+		if (cOrder === 1) {
+			l_suffix = "st";
+		} else if (cOrder === 2) {
+			l_suffix = "nd";
+		} else if (cOrder === 3) {
+			l_suffix = "rd";
+		} else {
+
+		}
+	} else {
+		if ((cOrder % 10) === 1) {
+			l_suffix = "st";
+		} else if ((cOrder % 10) === 2) {
+			l_suffix = "nd";
+		} else if ((cOrder % 10) === 3) {
+			l_suffix = "rd";
+		} else {
+
+		}
+	}
+	return cOrder + l_suffix + " out of " + allLen;
 }
 
 main.predict = () => {
@@ -73,6 +98,8 @@ main.predict = () => {
 		document.getElementById('overlayScreenInit').style.visibility = '';
 		let tmp = rendererPreload.doPredict(main.getDeckStr());
 		tmp.then((data) => {
+			console.log(data);
+			let l_allcardlen = data.split(",").length;
 			let idxPC1 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard1").children[0]));
 			let idxPC2 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard2").children[0]));
 			let idxPC3 = data.split(",").indexOf(main.getInternalNameFromImg(document.getElementById("pCard3").children[0]));
@@ -82,61 +109,64 @@ main.predict = () => {
 				100 - 100 * (idxPC2 / (data.split(",").length - 1)),
 				100 - 100 * (idxPC3 / (data.split(",").length - 1))
 			];
+			let tmp5 = [
+				idxPC1 + 1, idxPC2 + 1, idxPC3 + 1
+			]
 			let tmp2 = undefined;
 			if (tmp1[0]) {
 				if (tmp1[1]) {
 					if (tmp1[2]) {
 						// console.log([1,2,3])
-						tmp2 = [document.getElementById("pCard3"), tmp3[2]];
-						main.predictHelper1(tmp2[0], 3, tmp2[1]);
-						tmp2 = [document.getElementById("pCard2"), tmp3[1]];
-						main.predictHelper1(tmp2[0], 2, tmp2[1]);
-						tmp2 = [document.getElementById("pCard1"), tmp3[0]];
-						main.predictHelper1(tmp2[0], 1, tmp2[1]);
+						tmp2 = [document.getElementById("pCard3"), tmp3[2], tmp5[2],];
+						main.predictHelper1(tmp2[0], 3, tmp2[1], tmp2[2], l_allcardlen);
+						tmp2 = [document.getElementById("pCard2"), tmp3[1], tmp5[1],];
+						main.predictHelper1(tmp2[0], 2, tmp2[1], tmp2[2], l_allcardlen);
+						tmp2 = [document.getElementById("pCard1"), tmp3[0], tmp5[0],];
+						main.predictHelper1(tmp2[0], 1, tmp2[1], tmp2[2], l_allcardlen);
 					} else {
 						// console.log([1,3,2])
-						tmp2 = [document.getElementById("pCard2"), tmp3[1]];
-						main.predictHelper1(tmp2[0], 3, tmp2[1]);
-						tmp2 = [document.getElementById("pCard3"), tmp3[2]];
-						main.predictHelper1(tmp2[0], 2, tmp2[1]);
-						tmp2 = [document.getElementById("pCard1"), tmp3[0]];
-						main.predictHelper1(tmp2[0], 1, tmp2[1]);
+						tmp2 = [document.getElementById("pCard2"), tmp3[1], tmp5[1]];
+						main.predictHelper1(tmp2[0], 3, tmp2[1], tmp2[2], l_allcardlen);
+						tmp2 = [document.getElementById("pCard3"), tmp3[2], tmp5[2]];
+						main.predictHelper1(tmp2[0], 2, tmp2[1], tmp2[2], l_allcardlen);
+						tmp2 = [document.getElementById("pCard1"), tmp3[0], tmp5[0]];
+						main.predictHelper1(tmp2[0], 1, tmp2[1], tmp2[2], l_allcardlen);
 					}
 				} else {
 					// console.log([2,3,1])
-					tmp2 = [document.getElementById("pCard1"), tmp3[0]];
-					main.predictHelper1(tmp2[0], 2, tmp2[1]);
-					tmp2 = [document.getElementById("pCard3"), tmp3[2]];
-					main.predictHelper1(tmp2[0], 1, tmp2[1]);
-					tmp2 = [document.getElementById("pCard2"), tmp3[1]];
-					main.predictHelper1(tmp2[0], 3, tmp2[1]);
+					tmp2 = [document.getElementById("pCard1"), tmp3[0], tmp5[0]];
+					main.predictHelper1(tmp2[0], 2, tmp2[1], tmp2[2], l_allcardlen);
+					tmp2 = [document.getElementById("pCard3"), tmp3[2], tmp5[2]];
+					main.predictHelper1(tmp2[0], 1, tmp2[1], tmp2[2], l_allcardlen);
+					tmp2 = [document.getElementById("pCard2"), tmp3[1], tmp5[1]];
+					main.predictHelper1(tmp2[0], 3, tmp2[1], tmp2[2], l_allcardlen);
 				}
 			} else {
 				if (tmp1[1]) {
 					// console.log([2,1,3])
-					tmp2 = [document.getElementById("pCard3"), tmp3[2]];
-					main.predictHelper1(tmp2[0], 3, tmp2[1]);
-					tmp2 = [document.getElementById("pCard1"), tmp3[0]];
-					main.predictHelper1(tmp2[0], 2, tmp2[1]);
-					tmp2 = [document.getElementById("pCard2"), tmp3[1]];
-					main.predictHelper1(tmp2[0], 1, tmp2[1]);
+					tmp2 = [document.getElementById("pCard3"), tmp3[2], tmp5[2]];
+					main.predictHelper1(tmp2[0], 3, tmp2[1], tmp2[2], l_allcardlen);
+					tmp2 = [document.getElementById("pCard1"), tmp3[0], tmp5[0]];
+					main.predictHelper1(tmp2[0], 2, tmp2[1], tmp2[2], l_allcardlen);
+					tmp2 = [document.getElementById("pCard2"), tmp3[1], tmp5[1]];
+					main.predictHelper1(tmp2[0], 1, tmp2[1], tmp2[2], l_allcardlen);
 				} else {
 					if (tmp1[2]) {
 						// console.log([3,1,2])
-						tmp2 = [document.getElementById("pCard2"), tmp3[1]];
-						main.predictHelper1(tmp2[0], 1, tmp2[1]);
-						tmp2 = [document.getElementById("pCard1"), tmp3[0]];
-						main.predictHelper1(tmp2[0], 3, tmp2[1]);
-						tmp2 = [document.getElementById("pCard3"), tmp3[2]];
-						main.predictHelper1(tmp2[0], 2, tmp2[1]);
+						tmp2 = [document.getElementById("pCard2"), tmp3[1], tmp5[1]];
+						main.predictHelper1(tmp2[0], 1, tmp2[1], tmp2[2], l_allcardlen);
+						tmp2 = [document.getElementById("pCard1"), tmp3[0], tmp5[0]];
+						main.predictHelper1(tmp2[0], 3, tmp2[1], tmp2[2], l_allcardlen);
+						tmp2 = [document.getElementById("pCard3"), tmp3[2], tmp5[2]];
+						main.predictHelper1(tmp2[0], 2, tmp2[1], tmp2[2], l_allcardlen);
 					} else {
 						// console.log([3,2,1])
-						tmp2 = [document.getElementById("pCard1"), tmp3[0]];
-						main.predictHelper1(tmp2[0], 3, tmp2[1]);
-						tmp2 = [document.getElementById("pCard2"), tmp3[1]];
-						main.predictHelper1(tmp2[0], 2, tmp2[1]);
-						tmp2 = [document.getElementById("pCard3"), tmp3[2]];
-						main.predictHelper1(tmp2[0], 1, tmp2[1]);
+						tmp2 = [document.getElementById("pCard1"), tmp3[0], tmp5[0]];
+						main.predictHelper1(tmp2[0], 3, tmp2[1], tmp2[2], l_allcardlen);
+						tmp2 = [document.getElementById("pCard2"), tmp3[1], tmp5[1]];
+						main.predictHelper1(tmp2[0], 2, tmp2[1], tmp2[2], l_allcardlen);
+						tmp2 = [document.getElementById("pCard3"), tmp3[2], tmp5[2]];
+						main.predictHelper1(tmp2[0], 1, tmp2[1], tmp2[2], l_allcardlen);
 					}
 				}
 			}
@@ -211,7 +241,6 @@ main.onDeckClick = (what) => {
 	main.goToMainPaneOfRedSection();
 	let cardName = (JSON.parse(what.attributes.userattrib0.textContent))[0];
 	let cardUpgrade = (JSON.parse(what.attributes.userattrib0.textContent))[1];
-	console.log(cardUpgrade);
 	main.selectedCard = ["d", what, cardName, cardUpgrade];
 	document.getElementById("iCard_Bg").src = "./cardImgs/" + main.transform2CardAttrib2ImgName([cardName, cardUpgrade]) + ".png";
 	tmp = document.getElementById("iCard_Where");
@@ -392,7 +421,6 @@ main.lCardSearch = () => {
 	let tmp_anyOfAllowUg = Object.values(main.allowedUpgrade).some(element => { return element; });
 	let tmp = document.getElementById("lCard_SearchBox").value.toLowerCase();
 	if (tmp === '' && !tmp_anyOfAllowCost && !tmp_anyOfAllowUg) {
-		console.log("ALL");
 		for (let tmpe of document.getElementById("lCard_list").children) {
 			tmpe.hidden = false;
 		}
@@ -427,9 +455,6 @@ main.lCardSearch = () => {
 				if (tmp4 && tmp_anyOfAllowUg) {
 					tmp6 = Object.entries(main.allowedUpgrade).filter(element => { return element[1]; }).map(element => { return parseInt(element[0]); });
 					if (tmp6.includes(tmp7)) { } else { tmp4 = false; }
-					console.log("START");
-					console.log(tmp7);
-					console.log(tmp6);
 				}
 				// [String Search Zone + Skip process when above condition failed]
 				if (tmp4) {
